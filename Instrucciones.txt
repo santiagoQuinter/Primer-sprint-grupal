@@ -1,0 +1,12 @@
+Para la ejecución del archivo se deben seguir la siguientes intrucciones
+
+1. Descargar o clonar el repositorio de github: https://github.com/santiagoQuinter/NodeTDEA
+
+2. Asegurarse de que todas las librerías que esten en el package json esten bien instaladas
+
+3. Abrir la carpeta con el cmd y escribir el comando para ejecutar node src/app 
+
+4. Ingresar al navegardor y copiar: http://localhost:3000 para inciar la aplicación web
+
+5. Seguir las instrucciones del pdf segundas historias de usuario para verificar la completitud de la entrega
+
