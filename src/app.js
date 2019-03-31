@@ -93,10 +93,7 @@ app.post('/inscribir_verificado',(req, res)=>{
     //variables enviadas desde inscribir curso hasta inscribir_verificado
     res.render('inscribir_verificado',{
         identificacion: parseInt(req.body.identificacion),
-        nombre: req.body.nombre,
-        correo: req.body.correo,
-        telefono: req.body.telefono,
-        curso: req.body.curso
+        curso: parseInt(req.body.curso)
     });
 });
 

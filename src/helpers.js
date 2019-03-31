@@ -44,12 +44,9 @@ hbs.registerHelper('listarCursoInscribir', ()=>{
     return funciones.listarCursoInscribir();
 });
 
-hbs.registerHelper('inscribirAspirante',(identificacion, nombre, correo, telefono, curso)=>{
+hbs.registerHelper('inscribirAspirante',(identificacion, curso)=>{
     let aspi={
         identificacion:identificacion,
-        nombre:nombre,
-        correo:correo,
-        telefono:telefono,
         curso:curso
     }
     return funciones.inscribirAspirante(aspi);
