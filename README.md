@@ -3,15 +3,7 @@ Primera entrega grupal
 
 
 
-## Timedez
 
-Just run Junit in Eclipse/Netbeans/IntelliJ
-
-
-## Built With
-
-* [Eclipse](https://www.eclipse.org/downloads/) - The IDE used
-* [Junit](https://junit.org/junit4/) - Testing framework
 
 
 ## Authors
