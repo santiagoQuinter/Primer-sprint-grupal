@@ -445,7 +445,50 @@ const actualizarCurso =(curso)=>{
     }
 }
 
+//Actualiza los datos de los usuarios
+const actualizarUsuario =(identificacion)=>{
+    listar_usuarios();
+    let usuario = listaUsuarios.find(buscar => buscar.id == identificacion);
+    if(!usuario){
+        console.log("El usuario no existe");
+    }else{
+        return `<form action="/usuario_modificado" method="post">
+        <div class="form-group">
+            <label for="id">Id</label>
+            <input type="number" name="id"  class="form-control" required value=${usuario.id}>
+        </div>
+        <div class="form-group">   
+            <label for="nombre">Nombres y apellidos</label>
+            <input type="text" name="nombre" class="form-control"  required value=${usuario.nombre}>
+        </div>
+            <label for="correo">correo</label>
+            <input type="text" name="correo" class="form-control"  required value=${usuario.correo}>
+        <div class="form-group">   
+            <label for="telefono">Telefono</label>
+            <input type="text" name="telefono" class="form-control"  required value=${usuario.telefono}>
+        </div>
+        <div class="form-group">
+            <label for="rol">rol</label>
+            <select class="form-control" id="exampleFormControlSelect1" name="rol">
+                <option>aspirante</option>
+                <option>docente</option>
+            </select>
+        </div>
+        <button class="btn btn-primary">Actualizar usuario</button>
+        </form>`;
+    }
+}
 
+//Modificar los datos del usuario
+const modificarUsuario =(identificacion, nombre, telefono, correo, rol)=>{
+    listar_usuarios();
+    let usuario = listaUsuarios.find(buscar => buscar.id == identificacion);
+        usuario.identificacion=identificacion;
+        usuario.nombre=nombre;
+        usuario.correo=correo;
+        usuario.rol=rol;
+    guardarusuarios();
+}
 module.exports = {
     crear,
     mostrar,
@@ -456,5 +499,8 @@ module.exports = {
     eliminarAspirante,
     actualizarCurso,
     crear_usuario,
-    mostrar_usuarios
+    mostrar_usuarios,
+    actualizarUsuario,
+    verUsuario,
+    modificarUsuario
 }
