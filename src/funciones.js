@@ -5,6 +5,8 @@ const fs =require('fs');
 //Creación de un vector de estudiantes para almacenar en el Json 
 listaCursos = [];
 listaAspirantes = [];
+listaUsuario= [];
+listaUsuarioCurso = [];
 
 const crear = (curso) => {
     //traemos el listado antes de agregar
@@ -37,6 +39,34 @@ const crear = (curso) => {
 }
 
 
+const crear_usuario = (usuario) => {
+    //traemos el listado antes de agregar
+    listar_usuarios();
+    //objeto llamado usu :)
+    let usu = {
+
+        id: usuario.id,
+        nombre : usuario.nombre,
+        correo : usuario.correo,
+        telefono : usuario.telefono,
+        rol : usuario.rol
+    };
+    //Controlar los elementos duplicados
+    let duplicados = listaUsuario.find(buscar => buscar.id == usuario.id);
+
+    if (!duplicados){   
+        listaUsuario.push(usuario);        
+        guardar_usuario();
+        //si no existen duplicados me devuelve la lista de cursos creado
+        return `Usuario ${usuario.nombre} creado exitosamente <br>` + mostrar_usuarios(); 
+    }else {
+        return `<div class="alert alert-danger" role="alert">
+                    El id del Usuario ya se encuentra en la base de datos
+                </div>`;
+    }
+}
+
+
 //Función para traer los datos del JSON
 const listar = () => {
     //Controlar si no existe el archivo
@@ -51,6 +81,7 @@ const listar = () => {
     }
 }
 
+
 //Función propia de json para guardar 
  const guardar = () =>{
      listar();
@@ -64,6 +95,61 @@ const listar = () => {
     });
  }
 
+
+ const listar_usuarios = () => {
+    //Controlar si no existe el archivo
+    try {
+        //Si es constante con el tiempo se puede utilizar
+        listaUsuario = require('./usuarios.json');
+        //Traer el archivo utilizando funcion de fileSystem: se utiliza si
+        //El Json cambia de forma asincronica
+        //listaCursos = JSON.parse(fs.readFileSync(listado.json));    
+    } catch (error) {
+        listaUsuario = [];
+    }
+}
+const guardar_usuario = () =>{
+    listar_usuarios();
+   //datos contiene el vector listasuarios preparado 
+   //para ser almacenado como un documento 
+   let datos = JSON.stringify(listaUsuario);
+   //Se debe ingresar a la carpeta porque si se deja solo, toma la carpeta raíz
+   fs.writeFile('./src/usuarios.json', datos, (err) => {
+       if (err) throw (err);
+       console.log('Usuario creado exitosamente');
+   });
+}
+
+//Función para mostrar los usuarios
+const mostrar_usuarios = ()=>{
+    //Trae los elementos de json
+    listar_usuarios()
+    //Recorreo la lista de usuarios para imprimir cada uno y sus notas
+    // \sirve para salto de linea
+    let retorno = `<table class="table">
+                   <thead class="thead-dark">
+                   <th scope="col">ID</th>
+                   <th scope="col">NOMBRE</th>
+                   <th scope="col">CORREO</th>
+                   <th scope="col">TELEFONO</th>
+                   <th scope="col">ROL</th>                
+                   </thead>
+                   <tbody>`;    
+
+    listaUsuario.forEach(usuario => {
+    retorno += ` <tr>
+                <td> ${usuario.id} </td>
+                <td> ${usuario.nombre} </td>                
+                <td> ${usuario.correo} </td>
+                <td> ${usuario.telefono} </td>
+                <td> ${usuario.rol} </td>                
+                </tr>`;
+        
+    });
+    retorno += `</tbody>
+                </table>`;
+    return retorno;
+}
 
 
 //Función para mostrar los estudiantes
@@ -159,35 +245,67 @@ const listarCursoInscribir =()=> {
 //Las siguientes funciones son para el ---------------aspirante--------------------
 const inscribirAspirante = (aspirante) => {
     //traemos el listado antes de agregar
-    listarAspirante();
+    listarUsuarioCurso();
+    listar_usuarios();
     //objeto llamado cur
     let aspi = {
         identificacion:aspirante.identificacion,
-        nombre:aspirante.nombre,
-        correo:aspirante.correo,
-        telefono:aspirante.telefono,
         curso:aspirante.curso
     };
-    //Controla que el estudiante no se matricule 2 veces en el mismo curso 
-    let matriculado = listaAspirantes.filter(buscar => (buscar.curso == aspi.curso & buscar.identificacion == aspi.identificacion));
 
-    if (matriculado.length == 0){ 
-        listaAspirantes.push(aspi);
-        //console.log(listaCursos);
-        //llama a guardar
-        guardarAspirante();
-        //Busco el nombre del curso con la identificacion
-        let curso = listaCursos.find(buscar => buscar.id == aspirante.curso);
-        //si no existen duplicados me devuelve la lista de cursos creado
-        return `<div class="alert alert-success" role="alert">
-                Estudiante ${aspi.nombre} inscrito exitosamente en el curso ${curso.nombre} 
-                </div>`; 
-    }else {
+    console.log("lalalal"+aspi.identificacion);
+    //Controla que el estudiante se encuentree en la lista de usuario
+    let usuarioExistente = listaUsuario.find(buscar => buscar.id == aspirante.identificacion);
+    
+    if (!usuarioExistente){ 
         return `<div class="alert alert-danger" role="alert">
-                    El estudiante ya se encuentra inscrito en el curso seleccionado
+                    Primero debe registrarse como usuario para acceder a un curso
                 </div>`;
+    }else {
+        let inscrito = listaUsuarioCurso.filter(buscar=>(buscar.identificacion==aspi.identificacion & buscar.curso == aspi.curso));
+        if(inscrito.length == 0){
+            listaUsuarioCurso.push(aspi);
+            //console.log(listaCursos);
+            //llama a guardar
+            guardarUsuarioCurso();
+            return `<div class="alert alert-success" role="alert">
+                    El usuario inscrito correctamente
+                    </div>` ;
+        }else{
+            return `<div class="alert alert-danger" role="alert">
+                    El usuario ya se encuentra inscrito en el curso
+                    </div>` ;
+        }
+        
     }
 }
+
+//Función para traer los datos de listaUsuario
+const listarUsuarioCurso = () => {
+    //Controlar si no existe el archivo
+    try {
+        //Si es constante con el tiempo se puede utilizar
+        listaUsuarioCurso = require('./listadoUsuarioCurso.json');
+        //Traer el archivo utilizando funcion de fileSystem: se utiliza si
+        //El Json cambia de forma asincronica
+        //listaCursos = JSON.parse(fs.readFileSync(listado.json));    
+    } catch (error) {
+        listaUsuarioCurso = [];
+    }
+}
+
+const guardarUsuarioCurso = () =>{
+    listarUsuarioCurso();
+   //datos contiene el vector listasuarios preparado 
+   //para ser almacenado como un documento 
+   let datos = JSON.stringify(listaUsuarioCurso);
+   //Se debe ingresar a la carpeta porque si se deja solo, toma la carpeta raíz
+   fs.writeFile('./src/listadoUsuarioCurso.json', datos, (err) => {
+       if (err) throw (err);
+       console.log('Curso inscrito exitosamente');
+   });
+}
+
 
 //Función para traer los datos del aspirante de aspirantes.json
 const listarAspirante = () => {
@@ -213,15 +331,25 @@ const guardarAspirante = () =>{
 
 const verInscritos = () => {
     //lista los aspirante
-    listarAspirante();
+    //listarAspirante();
+    //lista los usuarios
+    listar_usuarios();
+    //lista los cursos
+    listarUsuarioCurso();
     //lista los cursos
     listar();
     let retorno=``;
-    //Recorro la lista de cursos y por cada uno busco los aspirantes de dicho curso
     
+    //Recorro la lista de cursos y por cada uno busco los aspirantes de dicho curso
     for(i=0;i<listaCursos.length;i++){
-        let matriculado = listaAspirantes.filter(buscar => buscar.curso == listaCursos[i].id & listaCursos[i].estado =='disponible');
+        //console.log("aaaaaaaaaaaa"+listaCursos[i].id);
         
+
+        let matriculado = listaUsuarioCurso.filter(buscar => (buscar.curso == listaCursos[i].id));
+
+
+        //console.log("matriculado"+ matriculado[0].curso);
+
         retorno += `<div class="card accordion" id="accordionExample">
                     <div class="card-header" id="heading${i}">
                         <h5 class="mb-0">
@@ -247,27 +375,35 @@ const verInscritos = () => {
                     </tr>
                     </thead>
                     <tbody>`;  
-
-        //si la lista de matriculado es igual a cero no hay estudiantes en el curso
-        if (matriculado.length > 0){                     
-            matriculado.forEach(aspirante => {
-                retorno += `<tr>    
-                            <td>${aspirante.identificacion}</td>                
-                            <td>${aspirante.nombre}</td>
-                            <td>${aspirante.correo}</td>
-                            <td>${aspirante.telefono}</td>
-                            <td><button type="submit" name="EliminarAspirante" value="${aspirante.identificacion}" class="btn btn-danger"> Eliminar</button> </td>
-                            </tr>`;
-            });
+                                       
+            //si la lista de matriculado es igual a cero no hay estudiantes en el curso
+            if (matriculado.length > 0){                     
+                matriculado.forEach(aspirante => {
+                    console.log("aspiranteeeeeee  " + aspirante.identificacion);
+                    console.log("1111111  " + aspirante.curso);
+                    listar_usuarios();
+                    let inscritos = listaUsuario.find(buscar => buscar.id == aspirante.identificacion);
+                    
+                    if(inscritos){
+                    retorno += `<tr>    
+                                <td>${inscritos.id}</td>                
+                                <td>${inscritos.nombre}</td>
+                                <td>${inscritos.correo}</td>
+                                <td>${inscritos.telefono}</td>
+                                <td><button type="submit" name="EliminarAspirante" value="${aspirante.identificacion}" class="btn btn-danger"> Eliminar</button> </td>
+                                </tr>`;
+                    }        
+                });
         }
-        retorno += `
-                    </tbody>
-                    </table>
-                    </div>
-                    </div>
-                    </div>`;   
-    }
-    return retorno;  
+
+            retorno += `
+                        </tbody>
+                        </table>
+                        </div>
+                        </div>
+                        </div>`;   
+        }
+        return retorno;  
 }
 
 const eliminarAspirante = (aspirante)=>{
@@ -309,7 +445,57 @@ const actualizarCurso =(curso)=>{
     }
 }
 
+//Actualiza los datos de los usuarios
+const actualizarUsuario =(identificacion)=>{
+    listar_usuarios();
+    let usuario = listaUsuario.find(buscar => buscar.id == identificacion);
+    if(!usuario){
+        console.log("El usuario no existe");
+        return `<div class="alert alert-success" role="alert">
+        El usuario no existe
+        </div>`;
+    }else{
+        return `<form action="/usuario_modificado" method="post">
+        <div class="form-group">
+            <label for="id">Id</label>
+            <input type="number" name="id"  class="form-control" required value=${usuario.id}>
+        </div>
+        <div class="form-group">   
+            <label for="nombre">Nombres y apellidos</label>
+            <input type="text" name="nombre" class="form-control"  required value=${usuario.nombre}>
+        </div>
+            <label for="correo">correo</label>
+            <input type="text" name="correo" class="form-control"  required value=${usuario.correo}>
+        <div class="form-group">   
+            <label for="telefono">Telefono</label>
+            <input type="text" name="telefono" class="form-control"  required value=${usuario.telefono}>
+        </div>
+        <div class="form-group">
+            <label for="rol">rol</label>
+            <select class="form-control" id="exampleFormControlSelect1" name="rol">
+                <option>aspirante</option>
+                <option>docente</option>
+            </select>
+        </div>
+        <button class="btn btn-primary">Actualizar usuario</button>
+        </form>`;
+    }
+}
 
+//Modificar los datos del usuario
+const modificarUsuario =(ide, nom, tele, corr, rol)=>{
+    listar_usuarios();
+    let usuario = listaUsuario.find(buscar => buscar.identificacion == ide);
+        usuario.identificacion=ide;
+        usuario.nombre=nom;
+        usuario.correo=corr;
+        usuario.rol=rol;
+        usuario.telefono=tele;
+    guardar_usuario();
+    return `<div class="alert alert-success" role="alert">
+    El usuario ha sido modificado
+    </div>`;
+}
 module.exports = {
     crear,
     mostrar,
@@ -318,5 +504,9 @@ module.exports = {
     inscribirAspirante,
     verInscritos,
     eliminarAspirante,
-    actualizarCurso
+    actualizarCurso,
+    crear_usuario,
+    mostrar_usuarios,
+    actualizarUsuario,
+    modificarUsuario
 }

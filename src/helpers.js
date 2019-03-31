@@ -18,6 +18,20 @@ hbs.registerHelper('crearCurso',(id, nombre, valor, descripcion, modalidad, inte
     return funciones.crear(cur);
 });
 
+hbs.registerHelper('crearUsuario',(id, nombre, correo, telefono)=>{
+    let usuario = {
+        id: id,
+        nombre : nombre,
+        correo : correo,
+        telefono: telefono,
+        rol : "aspirante",
+    
+    };
+    //Prueba de llamada a la funcion crear
+    console.log(usuario.correo)
+    return funciones.crear_usuario(usuario);
+});
+
 hbs.registerHelper('listarCursos',()=>{
     return funciones.mostrar();
 });
@@ -30,12 +44,9 @@ hbs.registerHelper('listarCursoInscribir', ()=>{
     return funciones.listarCursoInscribir();
 });
 
-hbs.registerHelper('inscribirAspirante',(identificacion, nombre, correo, telefono, curso)=>{
+hbs.registerHelper('inscribirAspirante',(identificacion, curso)=>{
     let aspi={
         identificacion:identificacion,
-        nombre:nombre,
-        correo:correo,
-        telefono:telefono,
         curso:curso
     }
     return funciones.inscribirAspirante(aspi);
@@ -43,6 +54,9 @@ hbs.registerHelper('inscribirAspirante',(identificacion, nombre, correo, telefon
 
 hbs.registerHelper('verInscritos',()=>{
     return funciones.verInscritos();
+});
+hbs.registerHelper('verUsuarios',()=>{
+    return funciones.mostrar_usuarios();
 });
 
 
@@ -53,4 +67,11 @@ hbs.registerHelper('eliminarAspirante',(identificacion)=>{
 
 hbs.registerHelper('actualizarCurso',(curso)=>{
     return funciones.actualizarCurso(curso);
+});
+
+hbs.registerHelper('actualizarUsuario',(id)=>{
+    return funciones.actualizarUsuario(id);
+});
+hbs.registerHelper('modificarUsuario',(id, nombre, correo, telefono, rol)=>{
+    return funciones.modificarUsuario(id, nombre, correo, telefono, rol);
 });
