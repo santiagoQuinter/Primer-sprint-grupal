@@ -18,6 +18,20 @@ hbs.registerHelper('crearCurso',(id, nombre, valor, descripcion, modalidad, inte
     return funciones.crear(cur);
 });
 
+hbs.registerHelper('crearUsuario',(id, nombre, correo, telefono)=>{
+    let usuario = {
+        id: id,
+        nombre : nombre,
+        correo : correo,
+        telefono: telefono,
+        rol : "aspirante",
+    
+    };
+    //Prueba de llamada a la funcion crear
+    console.log(usuario.correo)
+    return funciones.crear_usuario(usuario);
+});
+
 hbs.registerHelper('listarCursos',()=>{
     return funciones.mostrar();
 });
@@ -43,6 +57,9 @@ hbs.registerHelper('inscribirAspirante',(identificacion, nombre, correo, telefon
 
 hbs.registerHelper('verInscritos',()=>{
     return funciones.verInscritos();
+});
+hbs.registerHelper('verUsuarios',()=>{
+    return funciones.mostrar_usuarios();
 });
 
 
