@@ -400,6 +400,9 @@ const actualizarUsuario =(identificacion)=>{
     let usuario = listaUsuario.find(buscar => buscar.id == identificacion);
     if(!usuario){
         console.log("El usuario no existe");
+        return `<div class="alert alert-success" role="alert">
+        El usuario no existe
+        </div>`;
     }else{
         return `<form action="/usuario_modificado" method="post">
         <div class="form-group">
