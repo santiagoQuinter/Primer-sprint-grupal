@@ -5,6 +5,7 @@ const fs =require('fs');
 //Creación de un vector de estudiantes para almacenar en el Json 
 listaCursos = [];
 listaAspirantes = [];
+listaUsuario= [];
 
 const crear = (curso) => {
     //traemos el listado antes de agregar
@@ -37,6 +38,34 @@ const crear = (curso) => {
 }
 
 
+const crear_usuario = (usuario) => {
+    //traemos el listado antes de agregar
+    listar_usuarios();
+    //objeto llamado usu :)
+    let usu = {
+
+        id: usuario.id,
+        nombre : usuario.nombre,
+        correo : usuario.correo,
+        telefono : usuario.telefono,
+        rol : usuario.rol
+    };
+    //Controlar los elementos duplicados
+    let duplicados = listaUsuario.find(buscar => buscar.id == usuario.id);
+
+    if (!duplicados){   
+        listaUsuario.push(usuario);        
+        guardar_usuario();
+        //si no existen duplicados me devuelve la lista de cursos creado
+        return `Usuario ${usuario.nombre} creado exitosamente <br>` + mostrar_usuarios(); 
+    }else {
+        return `<div class="alert alert-danger" role="alert">
+                    El id del Usuario ya se encuentra en la base de datos
+                </div>`;
+    }
+}
+
+
 //Función para traer los datos del JSON
 const listar = () => {
     //Controlar si no existe el archivo
@@ -51,6 +80,7 @@ const listar = () => {
     }
 }
 
+
 //Función propia de json para guardar 
  const guardar = () =>{
      listar();
@@ -64,6 +94,61 @@ const listar = () => {
     });
  }
 
+
+ const listar_usuarios = () => {
+    //Controlar si no existe el archivo
+    try {
+        //Si es constante con el tiempo se puede utilizar
+        listaUsuario = require('./usuarios.json');
+        //Traer el archivo utilizando funcion de fileSystem: se utiliza si
+        //El Json cambia de forma asincronica
+        //listaCursos = JSON.parse(fs.readFileSync(listado.json));    
+    } catch (error) {
+        listaUsuario = [];
+    }
+}
+const guardar_usuario = () =>{
+    listar_usuarios();
+   //datos contiene el vector listasuarios preparado 
+   //para ser almacenado como un documento 
+   let datos = JSON.stringify(listaUsuario);
+   //Se debe ingresar a la carpeta porque si se deja solo, toma la carpeta raíz
+   fs.writeFile('./src/usuarios.json', datos, (err) => {
+       if (err) throw (err);
+       console.log('Usuario creado exitosamente');
+   });
+}
+
+//Función para mostrar los usuarios
+const mostrar_usuarios = ()=>{
+    //Trae los elementos de json
+    listar_usuarios()
+    //Recorreo la lista de usuarios para imprimir cada uno y sus notas
+    // \sirve para salto de linea
+    let retorno = `<table class="table">
+                   <thead class="thead-dark">
+                   <th scope="col">ID</th>
+                   <th scope="col">NOMBRE</th>
+                   <th scope="col">CORREO</th>
+                   <th scope="col">TELEFONO</th>
+                   <th scope="col">ROL</th>                
+                   </thead>
+                   <tbody>`;    
+
+    listaUsuario.forEach(usuario => {
+    retorno += ` <tr>
+                <td> ${usuario.id} </td>
+                <td> ${usuario.nombre} </td>                
+                <td> ${usuario.correo} </td>
+                <td> ${usuario.telefono} </td>
+                <td> ${usuario.rol} </td>                
+                </tr>`;
+        
+    });
+    retorno += `</tbody>
+                </table>`;
+    return retorno;
+}
 
 
 //Función para mostrar los estudiantes
@@ -318,5 +403,7 @@ module.exports = {
     inscribirAspirante,
     verInscritos,
     eliminarAspirante,
-    actualizarCurso
+    actualizarCurso,
+    crear_usuario,
+    mostrar_usuarios
 }

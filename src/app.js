@@ -41,7 +41,7 @@ app.get('/',(req, res)=>{
     });
 });
 
-//Llama a la página de validación del formulacio creación de cursos
+//Llama a la página de validación del formulacion creación de cursos
 app.post('/crear_curso_verificado',(req, res)=>{
     //Mostrar el req
     //console.log(req.query);
@@ -58,9 +58,29 @@ app.post('/crear_curso_verificado',(req, res)=>{
     });
 });
 
+//Llama a la página de validación del formulacion creación de cursos
+app.post('/crear_usuario_verificado',(req, res)=>{
+    //Mostrar el req
+    //console.log(req.query);
+
+    //Función que indica que pasa cuando ingrese a esta página
+    //Muestra el archivo que se llama calculos
+    res.render('crear_usuario_verificado',{        
+        id: parseInt(req.body.id),
+        nombre: req.body.nombre,
+        correo: req.body.correo,
+        telefono : req.body.telefono,
+        rol : req.body.rol
+       
+    });
+});
+
 //llama la página para ver los cursos
 app.use('/ver_curso',(req,res)=>{
     res.render('ver_curso');
+});
+app.use('/ver_usuario',(req,res)=>{
+    res.render('ver_usuario');
 });
 
 //llama la página para inscribirse en un curso
@@ -89,6 +109,12 @@ app.use('/ver_inscritos',(req,res)=>{
 app.use('/crear_curso',(req,res)=>{
     res.render('crear_curso');
 });
+
+//llama a la página crear_usuario
+app.use('/crear_usuario',(req,res)=>{
+    res.render('crear_usuario');
+});
+
 
 //llama a la página de eliminar_aspirante para eliminar el aspirante del curso 
 app.use('/eliminar_aspirante',(req,res)=>{
