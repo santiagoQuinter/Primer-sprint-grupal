@@ -129,7 +129,10 @@ app.use('/actualizar_curso',(req,res)=>{
         curso: parseInt(req.body.curso)
     });
 });
-
+//Llama a la pagina actualizar usuario
+app.use('/actualizar_Usuario',(req,res)=>{
+    res.render('actualizar_Usuario');
+});
 //Para escribri error en caso de que se accesa a una página
 //diferente al index por método get
 app.get('*',(req,res)=>{
@@ -138,16 +141,15 @@ app.get('*',(req,res)=>{
         curso: 'error'
     });
 });
+
+
 app.post('/actualizar_Usuario_verificado',(req,res)=>{
     res.render('actualizar_Usuario_verificado',{
         id: parseInt(req.body.id)
     });
 });
-app.post('/actualizar_Usuario_verificado',(req,res)=>{
-    res.render('actualizar_Usuario_verificado',{
-        id: parseInt(req.body.id)
-    });
-});
+
+
 app.post('/usuario_modificado',(req,res)=>{
     res.render('usuario_modificado',{
         id: parseInt(req.body.id),

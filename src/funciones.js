@@ -397,7 +397,7 @@ const actualizarCurso =(curso)=>{
 //Actualiza los datos de los usuarios
 const actualizarUsuario =(identificacion)=>{
     listar_usuarios();
-    let usuario = listaUsuarios.find(buscar => buscar.id == identificacion);
+    let usuario = listaUsuario.find(buscar => buscar.id == identificacion);
     if(!usuario){
         console.log("El usuario no existe");
     }else{
@@ -429,14 +429,18 @@ const actualizarUsuario =(identificacion)=>{
 }
 
 //Modificar los datos del usuario
-const modificarUsuario =(identificacion, nombre, telefono, correo, rol)=>{
+const modificarUsuario =(ide, nom, tele, corr, rol)=>{
     listar_usuarios();
-    let usuario = listaUsuarios.find(buscar => buscar.id == identificacion);
-        usuario.identificacion=identificacion;
-        usuario.nombre=nombre;
-        usuario.correo=correo;
+    let usuario = listaUsuario.find(buscar => buscar.identificacion == ide);
+        usuario.identificacion=ide;
+        usuario.nombre=nom;
+        usuario.correo=corr;
         usuario.rol=rol;
-    guardarusuarios();
+        usuario.telefono=tele;
+    guardar_usuario();
+    return `<div class="alert alert-success" role="alert">
+    El usuario ha sido modificado
+    </div>`;
 }
 module.exports = {
     crear,
@@ -450,6 +454,5 @@ module.exports = {
     crear_usuario,
     mostrar_usuarios,
     actualizarUsuario,
-    verUsuario,
     modificarUsuario
 }
