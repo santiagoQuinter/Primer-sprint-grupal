@@ -112,7 +112,25 @@ app.get('*',(req,res)=>{
         curso: 'error'
     });
 });
-
+app.post('/actualizar_Usuario_verificado',(req,res)=>{
+    res.render('actualizar_Usuario_verificado',{
+        id: parseInt(req.body.id)
+    });
+});
+app.post('/actualizar_Usuario_verificado',(req,res)=>{
+    res.render('actualizar_Usuario_verificado',{
+        id: parseInt(req.body.id)
+    });
+});
+app.post('/usuario_modificado',(req,res)=>{
+    res.render('usuario_modificado',{
+        id: parseInt(req.body.id),
+        nombre: req.body.nombre,
+        correo: req.body.correo,
+        telefono: req.body.telefono,
+        rol: req.body.rol
+    });
+});
 //console.log(__dirname)
 app.listen(3000, ()=> {
     console.log('Escuchando por el puerto 3000');
