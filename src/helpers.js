@@ -71,3 +71,10 @@ hbs.registerHelper('eliminarAspirante',(identificacion)=>{
 hbs.registerHelper('actualizarCurso',(curso)=>{
     return funciones.actualizarCurso(curso);
 });
+
+hbs.registerHelper('actualizarUsuario',(id)=>{
+    return funciones.actualizarUsuario(id);
+});
+hbs.registerHelper('modificarUsuario',(id, nombre, correo, telefono, rol)=>{
+    return funciones.modificarUsuario(id, nombre, correo, telefono, rol);
+});
