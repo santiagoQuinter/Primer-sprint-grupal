@@ -42,10 +42,10 @@ const listar = () => {
     //Controlar si no existe el archivo
     try {
         //Si es constante con el tiempo se puede utilizar
-        listaCursos = require('./listado.json');
+        listaCursos = require('./cursos.json');
         //Traer el archivo utilizando funcion de fileSystem: se utiliza si
         //El Json cambia de forma asincronica
-        //listaCursos = JSON.parse(fs.readFileSync(listado.json));    
+        //listaCursos = JSON.parse(fs.readFileSync(curso.json));    
     } catch (error) {
         listaCursos = [];
     }
@@ -58,7 +58,7 @@ const listar = () => {
     //para ser almacenado como un documento 
     let datos = JSON.stringify(listaCursos);
     //Se debe ingresar a la carpeta porque si se deja solo, toma la carpeta raíz
-    fs.writeFile('./src/listado.json', datos, (err) => {
+    fs.writeFile('./src/cursos.json', datos, (err) => {
         if (err) throw (err);
         console.log('Archivo creado exitosamente');
     });
