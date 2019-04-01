@@ -408,19 +408,19 @@ const verInscritos = () => {
 
 const eliminarAspirante = (aspirante)=>{
     //console.log("Identificación del estudiante a eliminar: " + aspirante);
-    listarAspirante();
-    let indice = listaAspirantes.findIndex(buscar => buscar.identificacion ==aspirante);
+    listarUsuarioCurso();
+    let indice = listaUsuarioCurso.findIndex(buscar => buscar.identificacion == aspirante);
     if(!indice){
         //console.log('El aspirante no existe');
     }else {
         //Remplaza la lista de estudiantes por la nueva(sin el estudiante eliminado)
-        listaAspirantes.splice(indice,1);
-        guardarAspirante();
+        listaUsuarioCurso.splice(indice,1);
+        guardarUsuarioCurso();
         //console.log("Identificación del estudiante a eliminar: " + aspirante);
         return `<div class="alert alert-danger" role="alert">
                 El aspirante ha sido eliminado exitosamente
                 </div>`;
-    }
+    }   
 
 }
 
