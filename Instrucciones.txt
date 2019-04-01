@@ -1,8 +1,8 @@
 Para la ejecuci�n del archivo se deben seguir la siguientes intrucciones
 
-1. Descargar o clonar el repositorio de github: https://github.com/santiagoQuinter/NodeTDEA
+1. Descargar o clonar el repositorio de github: https://github.com/santiagoQuinter/Primer-sprint-grupal
 
-2. Asegurarse de que todas las librer�as que esten en el package json esten bien instaladas
+2. Asegurarse de que todas las librer�as que esten en el package json esten bien instaladas(ejecutar npm install)
 
 3. Abrir la carpeta con el cmd y escribir el comando para ejecutar node src/app 
 
@@ -10,5 +10,4 @@ Para la ejecuci�n del archivo se deben seguir la siguientes intrucciones
 
 5. Seguir las instrucciones del pdf segundas historias de usuario para verificar la completitud de la entrega
 
-6. Probando rama, 1
-
+6. Disfrutar de esta maravillasa obra de arte :)
