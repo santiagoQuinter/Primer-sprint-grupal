@@ -52,6 +52,10 @@ hbs.registerHelper('inscribirAspirante',(identificacion, curso)=>{
     return funciones.inscribirAspirante(aspi);
 });
 
+hbs.registerHelper('EliminarCurso',(identificacion)=>{    
+    return funciones.eliminar_curso(identificacion);
+});
+
 hbs.registerHelper('verInscritos',()=>{
     return funciones.verInscritos();
 });
@@ -62,6 +66,11 @@ hbs.registerHelper('verUsuarios',()=>{
 
 hbs.registerHelper('eliminarAspirante',(identificacion)=>{
     return funciones.eliminarAspirante(identificacion);
+
+});
+
+hbs.registerHelper('eliminarCurso',(identificacion, curso)=>{
+    return funciones.eliminarCurso(identificacion, curso);
 
 });
 

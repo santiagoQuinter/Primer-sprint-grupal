@@ -79,6 +79,9 @@ app.post('/crear_usuario_verificado',(req, res)=>{
 app.use('/ver_curso',(req,res)=>{
     res.render('ver_curso');
 });
+app.use('/eliminar_curso',(req,res)=>{
+    res.render('eliminar_curso');
+});
 app.use('/ver_usuario',(req,res)=>{
     res.render('ver_usuario');
 });
@@ -144,6 +147,22 @@ app.post('/actualizar_Usuario_verificado',(req,res)=>{
     res.render('actualizar_Usuario_verificado',{
         id: parseInt(req.body.id)
     });
+});
+app.post('/eliminar_curso_verificado',(req,res)=>{
+    res.render('eliminar_curso_verificado',{
+        id: parseInt(req.body.id)
+    });
+});
+
+app.post('/curso_eliminado',(req,res)=>{
+    res.render('curso_eliminado',{
+        identifacion: parseInt(req.body.identifacion),
+        curso: req.body.curso
+    });
+});
+
+app.use('/eliminar_curso',(req,res)=>{
+    res.render('eliminar_curso');
 });
 
 

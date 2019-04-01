@@ -253,7 +253,7 @@ const inscribirAspirante = (aspirante) => {
         curso:aspirante.curso
     };
 
-    console.log("lalalal"+aspi.identificacion);
+    
     //Controla que el estudiante se encuentree en la lista de usuario
     let usuarioExistente = listaUsuario.find(buscar => buscar.id == aspirante.identificacion);
     
@@ -379,8 +379,8 @@ const verInscritos = () => {
             //si la lista de matriculado es igual a cero no hay estudiantes en el curso
             if (matriculado.length > 0){                     
                 matriculado.forEach(aspirante => {
-                    console.log("aspiranteeeeeee  " + aspirante.identificacion);
-                    console.log("1111111  " + aspirante.curso);
+                    
+                    
                     listar_usuarios();
                     let inscritos = listaUsuario.find(buscar => buscar.id == aspirante.identificacion);
                     
@@ -439,9 +439,7 @@ const actualizarCurso =(curso)=>{
             cur.estado='disponible'
         }
         guardar();
-        return `<div class="alert alert-success" role="alert">
-                El aspirante ha sido eliminado exitosamente
-                </div>`;
+        
     }
 }
 
@@ -496,6 +494,99 @@ const modificarUsuario =(ide, nom, tele, corr, rol)=>{
     El usuario ha sido modificado
     </div>`;
 }
+const eliminar_curso=(id_aspirante)=>{
+    listarUsuarioCurso();
+    let cursos = listaUsuarioCurso.filter(buscar => buscar.identificacion == id_aspirante );
+    //mostrar_curso(cursos);
+    return mostrar_curso(cursos,id_aspirante);
+
+    }
+const mostrar_curso= (cursos,id_aspirante)=>{
+    listar();
+    curso_interesado_mostrar = [];
+    
+    cursos.forEach  (cur =>{let curso_interesado = listaCursos.find(buscar => buscar.id == cur.curso );
+                            if(curso_interesado ){
+                                curso_interesado_mostrar.push(curso_interesado);
+                            
+                                
+
+                            }
+                            
+    
+    });
+   if (curso_interesado_mostrar.length > 0 ) {
+   let retorno = `<table class="table">
+                   <thead class="thead-dark">
+                   <th scope="col">ID</th>
+                   <th scope="col">NOMBRE</th>
+                   <th scope="col">VALOR</th>
+                   <th scope="col">DESCRIPCIÓN</th>
+                   <th scope="col">MODALIDAD</th>
+                   <th scope="col">INTENSIDAD HORARIA</th>
+                   <th scope="col">ESTADO</th>
+                   <th scope="col">ELIMINAR</th>
+                   </thead>
+                   <tbody>`; 
+
+    curso_interesado_mostrar.forEach( cur =>{         
+
+    
+    retorno += ` <tr>
+    <form action='/curso_eliminado' method='post'>
+    
+                    
+                <td> ${cur.id} </td>
+                <td> ${cur.nombre} </td>
+                <td> ${cur.valor}</td>
+                <td> ${cur.descripcion} </td>
+                <td> ${cur.modalidad} </td>
+                <td> ${cur.intensidadHoraria} </td>
+                <td> ${cur.estado} </td>
+                <td><button type="submit" name="eliminarCurso" value="${id_aspirante, cur.id}" class="btn btn-danger"> Eliminar</button> </td>
+                
+                </tr>`;})
+
+                retorno += `</tbody>
+                </table>`;
+    return retorno;
+}
+else {
+
+    return `<div class="alert alert-success" role="alert">
+                El aspirante no tiene cursos
+                </div>`;
+}
+}
+    
+
+
+         
+        
+    
+    
+
+
+
+const eliminarCurso = (id_aspirante ,curso)=>{
+    
+    listarUsuarioCurso();
+    let indice = listaUsuarioCurso.findIndex(buscar => buscar.identificacion == id_aspirante & buscar.curso==curso);
+    if(!indice){
+        //console.log('El aspirante no existe');
+    }else {
+        //Remplaza la lista de estudiantes por la nueva(sin el estudiante eliminado)
+        listaUsuarioCurso.splice(indice,1);
+        guardarUsuarioCurso();
+        //console.log("Identificación del estudiante a eliminar: " + aspirante);
+        return `<div class="alert alert-danger" role="alert">
+                El curso ha sido eliminado exitosamente
+                </div>`;
+    }
+
+}
+
+
 module.exports = {
     crear,
     mostrar,
@@ -508,5 +599,8 @@ module.exports = {
     crear_usuario,
     mostrar_usuarios,
     actualizarUsuario,
-    modificarUsuario
+    modificarUsuario,
+    eliminar_curso,
+    mostrar_curso,
+    eliminarCurso
 }
