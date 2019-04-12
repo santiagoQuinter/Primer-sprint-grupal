@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const hbs = require('hbs');
+const port=process.env.PORT || 3000
 //helper(funciones terminadas en hbs)
 require('./helpers');
 //constante de body parser
@@ -157,6 +158,6 @@ app.post('/usuario_modificado',(req,res)=>{
     });
 });
 //console.log(__dirname)
-app.listen(3000, ()=> {
-    console.log('Escuchando por el puerto 3000');
+app.listen(port, ()=> {
+    console.log('Servidor en el puerto '+ port);
 });
