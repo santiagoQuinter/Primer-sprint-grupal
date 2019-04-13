@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const hbs = require('hbs');
-const port=process.env.PORT || 3000;
+const port= process.env.PORT || 3000;
 //helper(funciones terminadas en hbs)
 require('./helpers');
 //constante de body parser
