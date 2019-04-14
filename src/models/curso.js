@@ -20,7 +20,8 @@ const cursoSchema = new Schema({
         required:true
     },
     intensidad:{
-        type:String,
+        type:Number,
+        trim: true
     },
     modalidad:{
         type:String,
