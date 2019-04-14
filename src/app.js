@@ -31,48 +31,6 @@ app.use('/js', express.static(dirNode_modules + '/bootstrap/dist/js'));
 //Trae el motor de hbs 
 app.set('view engine', 'hbs');
 
-
-//Llama a la página de validación del formulacion creación de cursos
-app.post('/crear_curso_verificado',(req, res)=>{
-    //Mostrar el req
-    //console.log(req.query);
-
-    //Función que indica que pasa cuando ingrese a esta página
-    //Muestra el archivo que se llama calculos
-    res.render('crear_curso_verificado',{        
-        id: parseInt(req.body.id),
-        nombre: req.body.nombre,
-        valor: parseInt(req.body.valor),
-        descripcion : req.body.descripcion,
-        modalidad : req.body.modalidad,
-        intensidadHoraria : req.body.intensidadHoraria
-    });
-});
-
-//Llama a la página de validación del formulacion creación de cursos
-app.post('/crear_usuario_verificado',(req, res)=>{
-    //Mostrar el req
-    //console.log(req.query);
-
-    //Función que indica que pasa cuando ingrese a esta página
-    //Muestra el archivo que se llama calculos
-    res.render('crear_usuario_verificado',{        
-        id: parseInt(req.body.id),
-        nombre: req.body.nombre,
-        correo: req.body.correo,
-        telefono : req.body.telefono,
-        rol : req.body.rol
-       
-    });
-});
-
-//llama la página para ver los cursos
-app.use('/ver_curso',(req,res)=>{
-    res.render('ver_curso');
-});
-app.use('/eliminar_curso',(req,res)=>{
-    res.render('eliminar_curso');
-});
 app.use('/ver_usuario',(req,res)=>{
     res.render('ver_usuario');
 });
@@ -96,10 +54,10 @@ app.use('/ver_inscritos',(req,res)=>{
     res.render('ver_inscritos');
 });
 
-//llama a la página crear_curso
-app.use('/crear_curso',(req,res)=>{
-    res.render('crear_curso');
-});
+// //llama a la página crear_curso
+// app.use('/crear_curso',(req,res)=>{
+//     res.render('crear_curso');
+// });
 
 //llama a la página crear_usuario
 app.use('/crear_usuario',(req,res)=>{
@@ -167,7 +125,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //Routes
 app.use(require('./routes/index'));
 
-mongoose.connect('mongodb://localhost:27017/cursosplatafomavirtual', {useNewUrlParser: true}, (err, resultado) => {
+
+mongoose.connect('mongodb://localhost:27017/cursosplataformavirtual', {useNewUrlParser: true}, (err, resultado) => {
 	if (err){
 		return console.log(error)
 	}
