@@ -188,7 +188,7 @@ const mostrar = (listado)=>{
 
 const listarCursosInteresado =(listado)=> {
     let retorno = `<div class="accordion" id="accordionExample">`;    
-    i=1
+    i=1;
     listado.forEach(curso => {
     //Solo muestra los cursos disponibles
     if(curso.estado =='disponible'){

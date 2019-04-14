@@ -2,7 +2,6 @@ const express = require('express')
 const app = express ()
 const path = require('path')
 const hbs = require ('hbs')
-const Curso = require('./../models/curso')
 const dirViews = path.join(__dirname, '../../template/views')
 const dirPartials = path.join(__dirname, '../../template/partials')
 const bcrypt = require('bcrypt');
@@ -83,12 +82,10 @@ app.get('/ver_curso_interesado',(req,res)=>{
             return console.log('Error al ver_curso'+ err);
         }
         if(!respuesta){
-            res.render('ver_curso_interesado',{
-                respuestaintersado: `<div class="alert alert-danger" role="alert">
-                            No hay cursos disponibles
-                            </div>`
-            });
-            //return console.log('No hay curso disponibles');
+            return console.log('No existen cursos para mostrar')
+            //res.render('ver_curso_interesado',{
+                
+            //});
         }
         res.render('ver_curso_interesado',{
             listado: respuesta
