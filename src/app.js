@@ -1,45 +1,36 @@
-const express = require('express');
-const app = express();
-const path = require('path');
-const hbs = require('hbs');
-//helper(funciones terminadas en hbs)
-require('./helpers');
-//constante de body parser
-const bodyParser = require('body-parser');
-//constante de bootstrap 
+//Requires
+require('./config/config');
+const express = require('express')
+const app = express ()
+const path = require('path')
+const bodyParser = require('body-parser')
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+//### Para usar las variables de sesión
+const session = require('express-session')
+var MemoryStore = require('memorystore')(session)
+
+//Paths
+const dirPublic = path.join(__dirname, "../public")
 const dirNode_modules = path.join(__dirname , '../node_modules')
 
+if (typeof localStorage === "undefined" || localStorage === null) {
+  var LocalStorage = require('node-localstorage').LocalStorage;
+  localStorage = new LocalStorage('./scratch');
+}
 
-//permite que public este visible para todos
-const directoriopublico = path.join(__dirname, '../public')
-//Indicar en donde están los partials
-const directoriopartials = path.join(__dirname,'../partials');
-app.use(express.static(directoriopublico));
-//funcion de hbs donde indica cuales son los partials
-hbs.registerPartials(directoriopartials);
-//indica a nodejs y a express especificamente que ya se puede utilizar body-parser
-//Permite traer elementos tipo string
-app.use(bodyParser.urlencoded({extended:false}))
-//Incluimos bootstrap, jquerry y popper.js
+
+//Static
+app.use(express.static(dirPublic))
 app.use('/css', express.static(dirNode_modules + '/bootstrap/dist/css'));
 app.use('/js', express.static(dirNode_modules + '/jquery/dist'));
 app.use('/js', express.static(dirNode_modules + '/popper.js/dist'));
-
 app.use('/js', express.static(dirNode_modules + '/bootstrap/dist/js'));
-
 
 
 //Trae el motor de hbs 
 app.set('view engine', 'hbs');
 
-//Cuando el usuario ingrese a la platafora(url)
-app.get('/',(req, res)=>{
-    //Creamos el render para que la página dinámica(index.hbs) sea renderizada
-    //y llamamos index d
-    res.render('index', {
-        //Se debe declarar sino lanza un error
-    });
-});
 
 //Llama a la página de validación del formulacion creación de cursos
 app.post('/crear_curso_verificado',(req, res)=>{
@@ -135,12 +126,6 @@ app.use('/actualizar_Usuario',(req,res)=>{
 });
 //Para escribri error en caso de que se accesa a una página
 //diferente al index por método get
-app.get('*',(req,res)=>{
-    res.render('error',{
-        //debe traer estudiante porque header lo está pidiendo
-        curso: 'error'
-    });
-});
 
 
 app.post('/actualizar_Usuario_verificado',(req,res)=>{
@@ -175,7 +160,22 @@ app.post('/usuario_modificado',(req,res)=>{
         rol: req.body.rol
     });
 });
-//console.log(__dirname)
-app.listen(3000, ()=> {
-    console.log('Escuchando por el puerto 3000');
+
+//BodyParser
+app.use(bodyParser.urlencoded({ extended: false }));
+
+//Routes
+app.use(require('./routes/index'));
+
+
+mongoose.connect(process.env.URLDB, {useNewUrlParser: true}, (err, resultado) => {
+	if (err){
+		return console.log(error)
+	}
+	console.log("conectado")
 });
+
+app.listen(process.env.PORT, () => {
+	console.log ('servidor en el puerto ' + process.env.PORT)
+});
+
