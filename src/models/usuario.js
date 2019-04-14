@@ -1,0 +1,32 @@
+const mongoose = require('mongoose');
+var uniqueValidator = require('mongoose-unique-validator');
+
+const Schema = mongoose.Schema;
+const usuarioSchema = new Schema({
+    cedula:{
+        type: Number,
+        required: true
+    },
+    nombre:{
+        type: String,
+        required: true
+    },
+    correo: {
+        type: String,
+        required:true
+    },
+    telefono:{
+        type: Number,
+        required:true
+    },  
+    tipo:{
+        type:String,
+        default: 'aspirante'
+    }
+});
+
+//usuarioSchema.plugin(uniqueValidator);
+
+const Usuario = mongoose.model('Usuario',usuarioSchema);
+
+module.exports = Usuario

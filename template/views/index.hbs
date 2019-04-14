@@ -1,7 +1,22 @@
 {{>header}}
 <h1>Bienvenido a la página de cursos de educación virtual</h1>
-
-    <!--Creamos formulario para ingreso de datos y lo enviamos a calculos-->
-
-
+    <form action="/" method="post">
+        <div class="form-group">
+            <label for="cedula">Cédula</label>
+            <input type="number" name="cedula"  class="form-control" required>
+        </div>
+        <div class="form-group">   
+            <label for="nombre">Nombre</label>
+            <input type="text" name="nombre" class="form-control"  required>
+        </div>
+        <div class="form-group">   
+            <label for="telefono">Telefono</label>
+            <input type="text" name="telefono" class="form-control"  required>
+        </div>
+        <div class="form-group">   
+            <label for="correo">Correo</label>
+            <input type="text" name="correo" class="form-control"  required>
+        </div>
+        <button class="btn btn-primary">Registrarse</button>
+    </form>
 {{>footer}}

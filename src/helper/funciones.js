@@ -187,14 +187,10 @@ const mostrar = ()=>{
     return retorno;
 }
 
-const listarCursosInteresado =()=> {
-    //Trae los elementos de json
-    listar()
-    //Recorreo la lista estudiantes para imprimir cada uno y sus notas
-    // \sirve para salto de linea
+const listarCursosInteresado =(listado)=> {
     let retorno = `<div class="accordion" id="accordionExample">`;    
     i=1
-    listaCursos.forEach(curso => {
+    listado.forEach(curso => {
     //Solo muestra los cursos disponibles
     if(curso.estado =='disponible'){
     retorno += `<div class="card">
@@ -217,7 +213,6 @@ const listarCursosInteresado =()=> {
                         </div>
                     </div>`;
                     i++;
-    
     }
     });
     retorno += `</div>`;

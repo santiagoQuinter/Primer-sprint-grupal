@@ -7,5 +7,4 @@ if (process.env.NODE_ENV === 'local'){
 else {
     urlDB = 'mongodb+srv://nodejstdea:nodejstdea@nodejstdea-4jn4i.mongodb.net/cursos?retryWrites=true'
 }
-
 process.env.URLDB = urlDB

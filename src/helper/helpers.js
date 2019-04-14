@@ -36,8 +36,8 @@ hbs.registerHelper('listarCursos',()=>{
     return funciones.mostrar();
 });
 
-hbs.registerHelper('listarCursosInteresado', ()=>{
-    return funciones.listarCursosInteresado();
+hbs.registerHelper('listarCursosInteresado', (listado)=>{
+    return funciones.listarCursosInteresado(listado);
 });
 
 hbs.registerHelper('listarCursoInscribir', ()=>{
