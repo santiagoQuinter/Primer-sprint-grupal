@@ -31,9 +31,9 @@ app.use('/js', express.static(dirNode_modules + '/bootstrap/dist/js'));
 //Trae el motor de hbs 
 app.set('view engine', 'hbs');
 
-app.use('/ver_usuario',(req,res)=>{
-    res.render('ver_usuario');
-});
+//app.use('/ver_usuario',(req,res)=>{
+//    res.render('ver_usuario');
+//});
 
 //llama la página para inscribirse en un curso
 app.use('/inscribir',(req,res)=>{
@@ -60,9 +60,9 @@ app.use('/ver_inscritos',(req,res)=>{
 // });
 
 //llama a la página crear_usuario
-app.use('/crear_usuario',(req,res)=>{
-    res.render('crear_usuario');
-});
+//app.use('/crear_usuario',(req,res)=>{
+//    res.render('crear_usuario');
+//});
 
 
 //llama a la página de eliminar_aspirante para eliminar el aspirante del curso 

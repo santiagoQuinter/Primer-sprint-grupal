@@ -32,12 +32,12 @@ hbs.registerHelper('crearUsuario',(id, nombre, correo, telefono)=>{
     return funciones.crear_usuario(usuario);
 });
 
-hbs.registerHelper('listarCursos',(respuesta)=>{
-    return funciones.mostrar(respuesta);
+hbs.registerHelper('listarCursos',(listado)=>{
+    return funciones.mostrar(listado);
 });
 
 hbs.registerHelper('listarCursosInteresado', (listado)=>{
-    return funciones.listarCursosInteresado(listado);
+    //return funciones.listarCursosInteresado(listado);
 });
 
 hbs.registerHelper('listarCursoInscribir', ()=>{

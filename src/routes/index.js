@@ -77,18 +77,18 @@ app.post('/',(req, res)=>{
 });
 
 app.get('/ver_curso_interesado',(req,res)=>{
-    Curso.find({estado:'disponible'}).exec((err,respuesta)=>{
+    Curso.find({estado:'Disponible'},(err,respuesta)=>{
         if(err){
             return console.log('Error al ver_curso'+ err);
         }
-        if(!respuesta){
-            return console.log('No existen cursos para mostrar')
-            //res.render('ver_curso_interesado',{
+        // if(!respuesta){
+        //     return console.log('No existen cursos para mostrar')
+        //     //res.render('ver_curso_interesado',{
                 
-            //});
-        }
+        //     //});
+        // }
         res.render('ver_curso_interesado',{
-            listado: respuesta
+            listadoCursosIntersado: respuesta
         });
     });
 });
@@ -101,7 +101,7 @@ app.get('/ver_curso', (req,res) => {
 		}
 
 		res.render ('ver_curso',{
-			listado : respuesta
+			listadoCursos : respuesta
 		})
 	})
 })

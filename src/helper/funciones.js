@@ -153,7 +153,7 @@ const mostrar_usuarios = ()=>{
 
 
 //Función para mostrar los cursoss
-const mostrar = (listado)=>{
+const mostrar = (listadoCursos)=>{
     //Trae los elementos de json
     //Recorreo la lista de cursos para imprimir cada uno y sus notas
     // \sirve para salto de linea
@@ -169,7 +169,7 @@ const mostrar = (listado)=>{
                    </thead>
                    <tbody>`;    
 
-    listado.forEach(curso => {
+    listadoCursos.forEach(curso => {
     retorno += ` <tr>
                 <td> ${curso.id} </td>
                 <td> ${curso.nombre} </td>
