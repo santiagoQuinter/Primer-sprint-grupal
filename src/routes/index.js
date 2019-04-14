@@ -76,6 +76,18 @@ app.post('/',(req, res)=>{
 	});	
 });
 
+
+app.get('/ver_curso', (req,res) => {
+	Curso.find({},(err,respuesta)=>{
+		if (err){
+			return console.log(err)
+		}
+		res.render ('ver_curso',{
+			listado : respuesta
+		});
+	});
+});
+
 app.get('/ver_curso_interesado',(req,res)=>{
     Curso.find({estado:'Disponible'},(err,respuesta)=>{
         if(err){
@@ -88,23 +100,12 @@ app.get('/ver_curso_interesado',(req,res)=>{
         //     //});
         // }
         res.render('ver_curso_interesado',{
-            listadoCursosIntersado: respuesta
+            listado: respuesta
         });
     });
+	
 });
 
-app.get('/ver_curso', (req,res) => {
-
-	Curso.find({},(err,respuesta)=>{
-		if (err){
-			return console.log(err)
-		}
-
-		res.render ('ver_curso',{
-			listadoCursos : respuesta
-		})
-	})
-})
 app.get('*',(req,res)=>{
     res.render('error',{
         //debe traer estudiante porque header lo está pidiendo

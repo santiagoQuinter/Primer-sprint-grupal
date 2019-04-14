@@ -191,7 +191,6 @@ const listarCursosInteresado =(listado)=> {
     i=1;
     listado.forEach(curso => {
     //Solo muestra los cursos disponibles
-    if(curso.estado =='disponible'){
     retorno += `<div class="card">
                     <div class="card-header" id="heading${i}">
                     <h5 class="mb-0">
@@ -208,29 +207,23 @@ const listarCursosInteresado =(listado)=> {
                             <b> Valor:</b> ${curso.valor} <br>
                             <b> Descripción:</b> ${curso.descripcion} <br>
                             <b> Modalidad:</b> ${curso.modalidad} <br>
-                            <b> Intensidad horaria:</b> ${curso.intensidadHoraria} <br>
+                            <b> Intensidad horaria:</b> ${curso.intensidad} <br>
                         </div>
                     </div>`;
                     i++;
-    }
+    
     });
     retorno += `</div>`;
     return retorno;
 }
 
 
-const listarCursoInscribir =()=> {
-    //Trae los elementos de json
-    listar()
-    //Recorreo la lista estudiantes para imprimir cada uno y sus notas
-    // \sirve para salto de linea
+const listarCursoInscribir =(listado)=> {
     let retorno = `<select class="custom-select  col-5" name="curso" id="cursoSeleccionado">`;    
-    
-    listaCursos.forEach(curso => {
-    //Solo muestra los cursos disponibles
-    if(curso.estado == 'disponible'){
-        retorno += `<option value="${curso.id}">${curso.nombre}</option>`;
-    }
+    listado.forEach(curso => {
+        if(curso.estado == 'Disponible'){
+            retorno += `<option value="${curso.id}">${curso.nombre}</option>`;
+        }
     });
     retorno += `</select>`;
     return retorno;

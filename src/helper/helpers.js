@@ -37,11 +37,11 @@ hbs.registerHelper('listarCursos',(listado)=>{
 });
 
 hbs.registerHelper('listarCursosInteresado', (listado)=>{
-    //return funciones.listarCursosInteresado(listado);
+    return funciones.listarCursosInteresado(listado);
 });
 
-hbs.registerHelper('listarCursoInscribir', ()=>{
-    return funciones.listarCursoInscribir();
+hbs.registerHelper('listarCursoInscribir', (listado)=>{
+    return funciones.listarCursoInscribir(listado);
 });
 
 hbs.registerHelper('inscribirAspirante',(identificacion, curso)=>{
