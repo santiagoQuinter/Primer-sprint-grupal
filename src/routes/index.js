@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Curso = require('../models/curso');
 const Usuario = require('../models/usuario')
+const Aspirante_inscrito = require('../models/aspirante_inscrito')
 
 require('./../helper/helpers')
 
@@ -55,7 +56,6 @@ app.post('/crear_curso_verificado', (req, res)=>{
             mostrar : `<div class="alert alert-success" role="alert">
                     El curso ${resultado.nombre}, con id${resultado.id} ha sido creado exitosamente
                         </div>`
-            
             
         })
         		
@@ -128,6 +128,65 @@ app.post('/actualizar_curso',(req,res)=>{
             nombre: resultado.nombre,
         });
     });
+});
+
+
+//guardar aspirante
+app.post('/inscribir_verificado', (req, res)=>{
+    Aspirante_inscrito.find({identificacion : parseInt(req.body.identificacion),id : parseInt(req.body.curso)},(err,resultado)=>{
+        if (err){
+            return console.log(err) 
+        }
+    if (resultado.length<=0 ) {   
+        //console.log(req.body.curso)
+        //console.log(req.body.identificacion)
+
+        let aspirante=new Aspirante_inscrito({ 
+            id: parseInt(req.body.curso),
+            identificacion: parseInt(req.body.identificacion),
+        })
+
+        Curso.find({id : req.body.curso},(err,respuesta2)=>{
+
+            if (err){
+                return console.log(err)		}
+        
+        aspirante.save((err, resultado) => {
+            if (err){
+                return res.render ('inscribir_verificado', {
+                    mostrar : err
+                })			
+            }		
+            res.render ('inscribir_verificado', {
+                    mostrar : `<div class="alert alert-success" role="alert">
+                    El usuario con la id ${resultado.identificacion}, ha sido inscrito correctamente en el curso ${respuesta2.nombre}
+                            </div>`
+                    
+                })	
+            });	
+        })
+}
+else {
+    res.render ('inscribir_verificado', {			
+        mostrar: `<div class="alert alert-warning" role="alert">
+                Usted ya está inscrito en este curso
+                </div>`
+    })
+}
+})
+});
+
+//Cuando el usuario ingrese a la platafora(url)
+app.get('/inscribir',(req, res)=>{
+    
+    Curso.find({},(err,respuesta)=>{
+		if (err){
+			return console.log(err)
+		}
+		res.render ('inscribir',{
+			listado : respuesta
+		});
+	});
 });
 
 app.get('*',(req,res)=>{
