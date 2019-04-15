@@ -24,6 +24,10 @@ const usuarioSchema = new Schema({
     tipo:{
         type:String,
         default: 'aspirante'
+    },
+    password:{
+        type:String,
+        required:true
     }
 });
 
