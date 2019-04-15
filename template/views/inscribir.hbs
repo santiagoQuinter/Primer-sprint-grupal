@@ -1,0 +1,26 @@
+{{>header}}
+<form action="/inscribir_verificado" method="post">
+    <div class="form-group">
+        <label for="identificacion">Documento de identidad</label>
+        <input type="number" name="identificacion" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="string" name="nombre" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="Correo">Correo</label>
+        <input type="string" name="correo" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="Telefono">Telefono</label>
+        <input type="number" name="telefono" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="curso">Seleccione un curso</label>
+        {{{listarCursoInscribir listado}}}
+    </div>
+        <button class="btn btn-primary">Inscribir</button>
+</form>
+
+{{>footer}}

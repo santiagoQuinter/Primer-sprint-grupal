@@ -4,19 +4,19 @@ const hbs = require('hbs');
 const funciones = require('./funciones');
 
 
-hbs.registerHelper('crearCurso',(id, nombre, valor, descripcion, modalidad, intensidadHoraria)=>{
-    let cur = {
-        id: id,
-        nombre : nombre,
-        valor : valor,
-        descripcion: descripcion,
-        modalidad: modalidad,
-        intensidadHoraria: intensidadHoraria,
-        estado: 'disponible'
-    };
-    //Prueba de llamada a la funcion crear
-    return funciones.crear(cur);
-});
+// hbs.registerHelper('crearCurso',(id, nombre, valor, descripcion, modalidad, intensidadHoraria)=>{
+//     let cur = {
+//         id: id,
+//         nombre : nombre,
+//         valor : valor,
+//         descripcion: descripcion,
+//         modalidad: modalidad,
+//         intensidadHoraria: intensidadHoraria,
+//         estado: 'disponible'
+//     };
+//     //Prueba de llamada a la funcion crear
+//     return funciones.crear(cur);
+// });
 
 hbs.registerHelper('crearUsuario',(id, nombre, correo, telefono)=>{
     let usuario = {
@@ -32,16 +32,16 @@ hbs.registerHelper('crearUsuario',(id, nombre, correo, telefono)=>{
     return funciones.crear_usuario(usuario);
 });
 
-hbs.registerHelper('listarCursos',()=>{
-    return funciones.mostrar();
+hbs.registerHelper('listarCursos',(listado)=>{
+    return funciones.mostrar(listado);
 });
 
-hbs.registerHelper('listarCursosInteresado', ()=>{
-    return funciones.listarCursosInteresado();
+hbs.registerHelper('listarCursosInteresado', (listado)=>{
+    return funciones.listarCursosInteresado(listado);
 });
 
-hbs.registerHelper('listarCursoInscribir', ()=>{
-    return funciones.listarCursoInscribir();
+hbs.registerHelper('listarCursoInscribir', (listado)=>{
+    return funciones.listarCursoInscribir(listado);
 });
 
 hbs.registerHelper('inscribirAspirante',(identificacion, curso)=>{

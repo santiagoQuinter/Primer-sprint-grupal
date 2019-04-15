@@ -72,10 +72,10 @@ const listar = () => {
     //Controlar si no existe el archivo
     try {
         //Si es constante con el tiempo se puede utilizar
-        listaCursos = require('./listado.json');
+        listaCursos = require('./cursos.json');
         //Traer el archivo utilizando funcion de fileSystem: se utiliza si
         //El Json cambia de forma asincronica
-        //listaCursos = JSON.parse(fs.readFileSync(listado.json));    
+        //listaCursos = JSON.parse(fs.readFileSync(curso.json));    
     } catch (error) {
         listaCursos = [];
     }
@@ -89,7 +89,7 @@ const listar = () => {
     //para ser almacenado como un documento 
     let datos = JSON.stringify(listaCursos);
     //Se debe ingresar a la carpeta porque si se deja solo, toma la carpeta raíz
-    fs.writeFile('./src/listado.json', datos, (err) => {
+    fs.writeFile('./src/cursos.json', datos, (err) => {
         if (err) throw (err);
         console.log('Archivo creado exitosamente');
     });
@@ -152,10 +152,9 @@ const mostrar_usuarios = ()=>{
 }
 
 
-//Función para mostrar los estudiantes
-const mostrar = ()=>{
+//Función para mostrar los cursoss
+const mostrar = (listadoCursos)=>{
     //Trae los elementos de json
-    listar()
     //Recorreo la lista de cursos para imprimir cada uno y sus notas
     // \sirve para salto de linea
     let retorno = `<table class="table">
@@ -170,14 +169,14 @@ const mostrar = ()=>{
                    </thead>
                    <tbody>`;    
 
-    listaCursos.forEach(curso => {
+    listadoCursos.forEach(curso => {
     retorno += ` <tr>
                 <td> ${curso.id} </td>
                 <td> ${curso.nombre} </td>
                 <td> ${curso.valor}</td>
                 <td> ${curso.descripcion} </td>
                 <td> ${curso.modalidad} </td>
-                <td> ${curso.intensidadHoraria} </td>
+                <td> ${curso.intensidad} </td>
                 <td> ${curso.estado} </td>
                 </tr>`;
         
@@ -187,16 +186,11 @@ const mostrar = ()=>{
     return retorno;
 }
 
-const listarCursosInteresado =()=> {
-    //Trae los elementos de json
-    listar()
-    //Recorreo la lista estudiantes para imprimir cada uno y sus notas
-    // \sirve para salto de linea
+const listarCursosInteresado =(listado)=> {
     let retorno = `<div class="accordion" id="accordionExample">`;    
-    i=1
-    listaCursos.forEach(curso => {
+    i=1;
+    listado.forEach(curso => {
     //Solo muestra los cursos disponibles
-    if(curso.estado =='disponible'){
     retorno += `<div class="card">
                     <div class="card-header" id="heading${i}">
                     <h5 class="mb-0">
@@ -213,30 +207,23 @@ const listarCursosInteresado =()=> {
                             <b> Valor:</b> ${curso.valor} <br>
                             <b> Descripción:</b> ${curso.descripcion} <br>
                             <b> Modalidad:</b> ${curso.modalidad} <br>
-                            <b> Intensidad horaria:</b> ${curso.intensidadHoraria} <br>
+                            <b> Intensidad horaria:</b> ${curso.intensidad} <br>
                         </div>
                     </div>`;
                     i++;
     
-    }
     });
     retorno += `</div>`;
     return retorno;
 }
 
 
-const listarCursoInscribir =()=> {
-    //Trae los elementos de json
-    listar()
-    //Recorreo la lista estudiantes para imprimir cada uno y sus notas
-    // \sirve para salto de linea
+const listarCursoInscribir =(listado)=> {
     let retorno = `<select class="custom-select  col-5" name="curso" id="cursoSeleccionado">`;    
-    
-    listaCursos.forEach(curso => {
-    //Solo muestra los cursos disponibles
-    if(curso.estado == 'disponible'){
-        retorno += `<option value="${curso.id}">${curso.nombre}</option>`;
-    }
+    listado.forEach(curso => {
+        if(curso.estado == 'Disponible'){
+            retorno += `<option value="${curso.id}">${curso.nombre}</option>`;
+        }
     });
     retorno += `</select>`;
     return retorno;
@@ -421,14 +408,10 @@ const eliminarAspirante = (aspirante)=>{
                 El aspirante ha sido eliminado exitosamente
                 </div>`;
     }   
-
 }
-
-
 
 //Actualiza el curso de disponible a cerrado y de cerrado a disponible
 const actualizarCurso =(curso)=>{
-    listar();
     let cur = listaCursos.find(buscar => buscar.id == curso);
     if(!cur){
         console.log("El curso no existe");

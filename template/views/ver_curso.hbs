@@ -1,14 +1,11 @@
 {{>header}}
     <h1>Ver cursos como administrador</h1>
-    {{{listarCursos}}}
+    {{{listarCursos listado}}}
     <div>
          <form action='/actualizar_curso' method='post'>
             <h3>Actualizar estado de un curso</h3>
-            {{{listarCursoInscribir}}}
+            {{{listarCursoInscribir listado}}}
             <button type="submit" class="btn btn-primary btn-lg"> Actualizar &raquo; </button>  
           </form>         
     </div>
-
-    <h1>Ver cursos como interesado</h1>
-    {{{listarCursosInteresado}}}
 {{>footer}}
