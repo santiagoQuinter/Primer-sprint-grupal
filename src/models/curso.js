@@ -34,7 +34,7 @@ const cursoSchema = new Schema({
     }
 });
 
-cursoSchema.plugin(uniqueValidator);
+cursoSchema.plugin(uniqueValidator,{ message: 'Error, Ya existe un curso con el mismo id' });
 
 const Curso = mongoose.model('Curso',cursoSchema);
 

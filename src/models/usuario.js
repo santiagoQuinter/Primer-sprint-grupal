@@ -27,7 +27,7 @@ const usuarioSchema = new Schema({
     }
 });
 
-usuarioSchema.plugin(uniqueValidator);
+usuarioSchema.plugin(uniqueValidator,{ message: 'Error, Ya existe un usuario con la misma cedula' });
 
 const Usuario = mongoose.model('Usuario',usuarioSchema);
 

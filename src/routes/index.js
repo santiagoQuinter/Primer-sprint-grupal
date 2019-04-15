@@ -45,18 +45,20 @@ app.post('/crear_curso_verificado', (req, res)=>{
     curso.save((err, resultado) => {
 		if (err){
 			return res.render ('crear_curso_verificado', {
-				mostrar : err
+				mostrar : `<div class="alert alert-warning" role="alert">
+                            Ya se encuentra un curso con el mismo id (${req.body.id}) en la base de datos
+                        </div>`
 			})			
         }		
-        if(!resultado){
-            res.render ('crear_curso_verificado', {			
-				mostrar : 'El id del curso ya se encuentra en uso'
-            }) 
-        }else{
+              
 		res.render ('crear_curso_verificado', {			
-				mostrar : resultado
-            })
-        }		
+            mostrar : `<div class="alert alert-success" role="alert">
+                    El curso ${resultado.nombre}, con id${resultado.id} ha sido creado exitosamente
+                        </div>`
+            
+            
+        })
+        		
 	})
 });
 
@@ -73,11 +75,15 @@ app.post('/',(req, res)=>{
 	usuario.save((err, resultado) => {
 		if (err){
 			return res.render ('indexpost', {
-				mostrar : err
+				mostrar :`<div class="alert alert-warning" role="alert">
+                        Ya se encuentra un usuario con la mismaa cédula (${req.body.cedula}) en la base de datos
+                        </div>`
 			});			
 		}		
 		res.render ('indexpost', {			
-				mostrar : resultado.nombre
+				mostrar : `<div class="alert alert-success" role="alert">
+                            Bienvenid@ ${req.body.nombre} a la plataforma de Devtime
+                            </div>`
 		});		
 	});	
 });
