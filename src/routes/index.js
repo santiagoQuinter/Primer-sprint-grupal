@@ -19,6 +19,16 @@ app.set('views', dirViews)
 hbs.registerPartials(dirPartials)
 
 //variables de sesión
+
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+  }))
+
+
+
 //Cuando el usuario ingrese a la platafora(url)
 app.get('/',(req, res)=>{
     //Creamos el render para que la página dinámica(index.hbs) sea renderizada
@@ -86,7 +96,8 @@ app.post('/ingresar', (req,res)=>{
         if(!bcrypt.compareSync(req.body.password, resultado.password) ){
             return res.render('ingresar',{mensaje:"Contraseña incorrecta"})
         }
-    res.render('ingresar',{mensaje:resultado.nombre})
+     req.session.usuario=resultado._id  
+    res.render('ingresar',{mensaje:"Bienvenido "+ resultado.nombre})
 
     })
 
