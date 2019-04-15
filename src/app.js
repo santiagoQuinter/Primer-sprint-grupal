@@ -43,7 +43,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(require('./routes/index'));
 
 
-mongoose.connect('mongodb://localhost:27017/cursosplataformavirtual', {useNewUrlParser: true}, (err, resultado) => {
+mongoose.connect(process.env.URLDB, {useNewUrlParser: true}, (err, resultado) => {
 	if (err){
 		return console.log(error)
 	}
