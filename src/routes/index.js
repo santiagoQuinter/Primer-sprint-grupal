@@ -19,7 +19,12 @@ hbs.registerPartials(dirPartials)
 
 //variables de sesión
 
-
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+  }))
 
 
 
@@ -86,7 +91,8 @@ app.post('/ingresar', (req,res)=>{
         if(!bcrypt.compareSync(req.body.password, resultado.password) ){
             return res.render('ingresar',{mensaje:"Contraseña incorrecta"})
         }
-    res.render('ingresar',{mensaje:resultado.nombre})
+     req.session.usuario=resultado._id  
+    res.render('ingresar',{mensaje:"Bienvenido "+ resultado.nombre})
 
     })
 
