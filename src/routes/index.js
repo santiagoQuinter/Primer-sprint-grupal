@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Curso = require('../models/curso');
 const Usuario = require('../models/usuario')
+const session=require ('express-session')
 
 require('./../helper/helpers')
 
@@ -15,6 +16,11 @@ require('./../helper/helpers')
 app.set('view engine', 'hbs')
 app.set('views', dirViews)
 hbs.registerPartials(dirPartials)
+
+//variables de sesión
+
+
+
 
 
 //Cuando el usuario ingrese a la platafora(url)
@@ -55,13 +61,45 @@ app.post('/crear_curso_verificado', (req, res)=>{
 });
 
 
+
+
+//llama a la página de eliminar_aspirante para eliminar el aspirante del curso 
+app.use('/eliminar_aspirante',(req,res)=>{
+    res.render('eliminar_aspirante',{
+        identificacion: parseInt(req.body.EliminarAspirante)
+    });
+});
+
+//Eliminar usuario con un curso especifico
+
+
+
+//Ingresar usuario
+app.post('/ingresar', (req,res)=>{
+    Usuario.findOne({cedula:req.body.usuario},(err, resultado)=>{
+        if (err){
+            return console.log(err);
+        }
+        if(!resultado)
+           return res.render('ingresar',{mensaje:"Usuario no encontrado"})
+
+        if(!bcrypt.compareSync(req.body.password, resultado.password) ){
+            return res.render('ingresar',{mensaje:"Contraseña incorrecta"})
+        }
+    res.render('ingresar',{mensaje:resultado.nombre})
+
+    })
+
+})
+
 app.post('/',(req, res)=>{
 
     let usuario = new Usuario ({
         cedula: req.body.cedula,
         nombre : req.body.nombre,
         correo: req.body.correo,
-        telefono: req.body.telefono
+        telefono: req.body.telefono,
+        password:bcrypt.hashSync(req.body.contraseña, 10)
 	})
 
 	usuario.save((err, resultado) => {
