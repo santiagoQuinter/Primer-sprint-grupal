@@ -408,14 +408,10 @@ const eliminarAspirante = (aspirante)=>{
                 El aspirante ha sido eliminado exitosamente
                 </div>`;
     }   
-
 }
-
-
 
 //Actualiza el curso de disponible a cerrado y de cerrado a disponible
 const actualizarCurso =(curso)=>{
-    listar();
     let cur = listaCursos.find(buscar => buscar.id == curso);
     if(!cur){
         console.log("El curso no existe");

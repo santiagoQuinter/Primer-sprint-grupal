@@ -47,10 +47,16 @@ app.post('/crear_curso_verificado', (req, res)=>{
 			return res.render ('crear_curso_verificado', {
 				mostrar : err
 			})			
-		}		
+        }		
+        if(!resultado){
+            res.render ('crear_curso_verificado', {			
+				mostrar : 'El id del curso ya se encuentra en uso'
+            }) 
+        }else{
 		res.render ('crear_curso_verificado', {			
 				mostrar : resultado
-			})		
+            })
+        }		
 	})
 });
 
@@ -75,7 +81,6 @@ app.post('/',(req, res)=>{
 		});		
 	});	
 });
-
 
 app.get('/ver_curso', (req,res) => {
 	Curso.find({},(err,respuesta)=>{
@@ -103,7 +108,20 @@ app.get('/ver_curso_interesado',(req,res)=>{
             listado: respuesta
         });
     });
-	
+});
+
+app.post('/actualizar_curso',(req,res)=>{
+    Curso.findOneAndUpdate({id: req.body.curso},{estado:'Cerrado'},{new:true},(err,resultado)=>{
+        if(err){
+            return console.log('error al actualiar curso' + err);
+        }
+        if(!resultado){
+            return console.log('No se encontro curso para actualizar');
+        }
+        res.render('actualizar_curso',{
+            nombre: resultado.nombre,
+        });
+    });
 });
 
 app.get('*',(req,res)=>{

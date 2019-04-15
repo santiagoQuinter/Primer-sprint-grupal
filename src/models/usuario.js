@@ -5,7 +5,9 @@ const Schema = mongoose.Schema;
 const usuarioSchema = new Schema({
     cedula:{
         type: Number,
-        required: true
+        required: true,
+        trim: true,
+        unique: true
     },
     nombre:{
         type: String,
@@ -25,7 +27,7 @@ const usuarioSchema = new Schema({
     }
 });
 
-//usuarioSchema.plugin(uniqueValidator);
+usuarioSchema.plugin(uniqueValidator);
 
 const Usuario = mongoose.model('Usuario',usuarioSchema);
 

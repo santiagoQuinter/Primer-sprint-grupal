@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const cursoSchema = new Schema({
     id:{
         type: Number,
-        required: true
+        required: true,
+        unique: true, 
     },
     nombre:{
         type: String,
