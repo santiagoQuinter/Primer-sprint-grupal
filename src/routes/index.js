@@ -19,11 +19,6 @@ app.set('views', dirViews)
 hbs.registerPartials(dirPartials)
 
 //variables de sesión
-
-
-
-
-
 //Cuando el usuario ingrese a la platafora(url)
 app.get('/',(req, res)=>{
     //Creamos el render para que la página dinámica(index.hbs) sea renderizada
@@ -31,9 +26,6 @@ app.get('/',(req, res)=>{
     res.render('index', {
         //Se debe declarar sino lanza un error
     });
-
-
-
 });
 //llama a la página crear_curso
 app.get('/crear_curso',(req,res)=>{
