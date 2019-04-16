@@ -9,9 +9,28 @@
         <link rel="stylesheet" href="css/style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <header>
-            <center><h1>Bienvenido a la página de cursos de educación continua</h1></center>
-        </header>
+         <header>
+            {{!-- <center><h1>Bienvenido a la página de cursos de educación continua</h1></center> --}}
+        <div class="jumbotron">   
+            <img src="img/banner.jpg" class="img-fluid" >
+        </div>
+        {{!-- <div class="row">
+        <div class="col-sm-6 col-md-4">
+          <img src="img/logo-ppal.jpg" class="img-fluid" >
+        </div>   
+        <div class="d-none d-md-block col-md-4">
+            <img src="img/gel2.jpg" class="img-fluid" >
+        </div>
+         --}}
+         <div class="col-sm-6 col-md-4">
+          <h3> {{titulo}} </h3>
+        </div>
+    </div>
+        </header> 
+        
+         {{!-- <div class="jumbotron">   
+        <img src="img/banner.jpg" class="img-fluid" >
+            </div> --}}
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="./">INICIO</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,48 +40,57 @@
                 <ul class="navbar-nav mr-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/crear_curso">CREAR CURSOS</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/ver_curso">VER CURSOS</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="/ver_curso_interesado">VER CURSOS</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/inscribir">INSCRIBIR</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/ver_inscritos">VER INSCRITOS</a>
 
-                </li> 
-                <li class="nav-item">
-                    <a class="nav-link" href="/crear_usuario">CREAR USUARIO</a>
-                </li>                 
+                {{#if sesion}}
 
-                </li>  
-                <li class="nav-item">
-                    <a class="nav-link" href="/actualizar_Usuario">ACTUALIZAR</a>
-                </li>        
-                <li class="nav-item">
-                    <a class="nav-link" href="/ver_usuario">VER USUARIOS</a>
-                </li>  
-                <li class="nav-item">
-                    <a class="nav-link" href="/eliminar_curso">VER MIS CURSOS</a>
-                </li>         
-                </ul>
-              
-                <span class="navbar-text"></span>
-                               
-                </ul>
-                <span class="navbar-text">
-                </span>
-                <form class="form-inline my-2 my-lg-0" action="/ingresar" method="post">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/crear_curso">CREAR CURSOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ver_curso">VER CURSOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/inscribir">INSCRIBIR</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ver_inscritos">VER INSCRITOS</a>
+
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link" href="/crear_usuario">CREAR USUARIO</a>
+                    </li>                 
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/actualizar_Usuario">ACTUALIZAR</a>
+                    </li>        
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ver_usuario">VER USUARIOS</a>
+                    </li>  
+                    <li class="nav-item">
+                        <a class="nav-link" href="/eliminar_curso">VER MIS CURSOS</a>
+                    </li>         
+                    </ul>
+                
+                    <span class="navbar-text"></span>
+                                
+                    </ul>
+                    <span class="navbar-text">
+                    </span>
+                    <form class="form-inline my-2 my-lg-0" action="/salir" method="get">  
+                                  
+                        <button class="btn btn-primary my-2 my-sm-0" type="submit">Salir</button>
+                    </form>  
+                {{else}}
+                     </ul>
+                    <form class="form-inline my-2 my-lg-0" action="/ingresar" method="post">
                     <input class="form-control mr-sm-2" type="text" name="usuario" placeholder="usuario" >  
                     <input class="form-control mr-sm-2" type="password" name="password" placeholder="Contraseña" >                 
                     <button class="btn btn-primary my-2 my-sm-0" type="submit">Ingresar</button>
                 </form>  
-
+                {{/if}}
             </div>
         </nav>
         

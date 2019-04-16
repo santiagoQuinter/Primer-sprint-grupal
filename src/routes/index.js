@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const Curso = require('../models/curso');
 const Usuario = require('../models/usuario')
 const Aspirante_inscrito = require('../models/aspirante_inscrito')
-const session=require ('express-session')
+//const session=require ('express-session')
 
 require('./../helper/helpers')
 
@@ -17,15 +17,6 @@ require('./../helper/helpers')
 app.set('view engine', 'hbs')
 app.set('views', dirViews)
 hbs.registerPartials(dirPartials)
-
-//variables de sesión
-
-app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
-  }))
 
 
 
@@ -36,6 +27,15 @@ app.get('/',(req, res)=>{
     res.render('index', {
         //Se debe declarar sino lanza un error
     });
+});
+
+//salir del login e ingresar a inicio
+app.get('/salir',(req, res)=>{
+    req.session.destroy((err)=>{
+        if(err) return console.log(err)
+    })
+    console.log("esta cerrada")
+    res.redirect('/')
 });
 //llama a la página crear_curso
 app.get('/crear_curso',(req,res)=>{
@@ -96,8 +96,9 @@ app.post('/ingresar', (req,res)=>{
         if(!bcrypt.compareSync(req.body.password, resultado.password) ){
             return res.render('ingresar',{mensaje:"Contraseña incorrecta"})
         }
-     req.session.usuario=resultado._id  
-    res.render('ingresar',{mensaje:"Bienvenido "+ resultado.nombre})
+     req.session.usuario=resultado.tipo 
+     req.session.nombre=resultado.nombre
+     res.render('ingresar',{mensaje:"Bienvenid@"+ resultado.nombre, sesion:true, nombre:req.session.nombre})
 
     })
 
@@ -110,7 +111,7 @@ app.post('/',(req, res)=>{
         nombre : req.body.nombre,
         correo: req.body.correo,
         telefono: req.body.telefono,
-        password:bcrypt.hashSync(req.body.contraseña, 10)
+        password:bcrypt.hashSync(req.body.contraseña, 10) //Para encriptar la contraseña
 	})
 
 	usuario.save((err, resultado) => {
@@ -219,12 +220,12 @@ else {
 
 //Cuando el usuario ingrese a la platafora(url)
 app.get('/inscribir',(req, res)=>{
-    
+    //console.log(session.usuario)
     Curso.find({},(err,respuesta)=>{
 		if (err){
 			return console.log(err)
 		}
-		res.render ('inscribir',{
+		res.render ('inscribir',{ 
 			listado : respuesta
 		});
 	});
