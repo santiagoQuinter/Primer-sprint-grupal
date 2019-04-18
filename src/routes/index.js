@@ -41,6 +41,40 @@ app.get('/salir',(req, res)=>{
 app.get('/crear_curso',(req,res)=>{
     res.render('crear_curso');
 });
+//llama a la página ver_inscritos
+app.get('/ver_inscritos', (req,res) => {
+
+	Curso.find({},(err,resC)=>{
+		if (err){
+			return console.log(err)
+        }
+        Aspirante_inscrito.find({},(err,resA)=>{
+            if (err){
+                return console.log(err)
+            }
+            Usuario.find({},(err,resU)=>{
+                if (err){
+                    return console.log(err)
+                }
+                res.render ('ver_inscritos',{
+                    listadoC :resC,
+                    listadoA: resA,
+                    listadoU:resU
+                })
+           
+    
+            })
+
+        })
+       
+    })
+   
+   
+  
+})
+
+
+
 //Crear curso
 app.post('/crear_curso_verificado', (req, res)=>{
     let curso=new Curso({ 
@@ -74,10 +108,25 @@ app.post('/crear_curso_verificado', (req, res)=>{
 
 
 //llama a la página de eliminar_aspirante para eliminar el aspirante del curso 
-app.use('/eliminar_aspirante',(req,res)=>{
-    res.render('eliminar_aspirante',{
-        identificacion: parseInt(req.body.EliminarAspirante)
-    });
+app.post('/eliminar_aspirante',(req,res)=>{
+
+	Aspirante_inscrito.findOneAndDelete({cedula : req.body.identificacion}, req.body, (err, resultados) => {
+		if (err){
+			return console.log(err)
+		}
+
+		if(!resultados){
+			res.render ('eliminar_aspirante', {
+			nombre : "no encontrado"			
+		})
+
+		}
+
+		res.render ('eliminar_aspirante', {
+			nombre : resultados.nombre			
+		})
+	})	
+
 });
 
 //Eliminar usuario con un curso especifico
@@ -98,8 +147,23 @@ app.post('/ingresar', (req,res)=>{
         }
      req.session.usuario=resultado.tipo 
      req.session.nombre=resultado.nombre
-     res.render('ingresar',{mensaje:"Bienvenid@"+ resultado.nombre, sesion:true, nombre:req.session.nombre})
-
+     if(resultado.tipo=='aspirante'){
+        req.session.aspirante=true
+    }
+    else if (resultado.tipo=='coordinador'){
+        req.session.admin=true
+    }
+    else{
+        req.session.docente=true
+    }
+     res.render('ingresar',{
+    mensaje:"Bienvenid@"+ resultado.nombre, 
+    sesion:true,
+    aspirante:req.session.aspirante, 
+    admin:req.session.admin,
+    docente:req.session.docente,
+    nombre:req.session.nombre
+        })
     })
 
 })
@@ -121,11 +185,20 @@ app.post('/',(req, res)=>{
                         Ya se encuentra un usuario con la mismaa cédula (${req.body.cedula}) en la base de datos
                         </div>`
 			});			
-		}		
+        }	
+        req.session.usuario=usuario.tipo
+        req.session.aspirante=true
+        req.session.admin=false	
+        req.session.coordinador=false
+        console.log("entro"+ req.session.usuario)
 		res.render ('indexpost', {			
 				mostrar : `<div class="alert alert-success" role="alert">
                             Bienvenid@ ${req.body.nombre} a la plataforma de Devtime
-                            </div>`
+                            </div>`,
+                aspirante:req.session.aspirante, 
+                admin:req.session.admin,
+                docente:req.session.docente,
+                sesion:true       
 		});		
 	});	
 });

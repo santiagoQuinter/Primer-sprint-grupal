@@ -56,18 +56,18 @@ hbs.registerHelper('EliminarCurso',(identificacion)=>{
     return funciones.eliminar_curso(identificacion);
 });
 
-hbs.registerHelper('verInscritos',()=>{
-    return funciones.verInscritos();
+hbs.registerHelper('verInscritos',(listadoC, listadoA, listadoU)=>{
+    return funciones.verInscritos(listadoC, listadoA, listadoU);
 });
 hbs.registerHelper('verUsuarios',()=>{
     return funciones.mostrar_usuarios();
 });
 
 
-hbs.registerHelper('eliminarAspirante',(identificacion)=>{
-    return funciones.eliminarAspirante(identificacion);
+// hbs.registerHelper('eliminarAspirante',(identificacion)=>{
+//     return funciones.eliminarAspirante(identificacion);
 
-});
+// });
 
 hbs.registerHelper('eliminarCurso',(identificacion, curso)=>{
     return funciones.eliminarCurso(identificacion, curso);

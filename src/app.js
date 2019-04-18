@@ -50,7 +50,23 @@ app.use(session({
   app.use((req, res, next)=> {
 	if(req.session.usuario){
 		res.locals.sesion=true
-		res.locals.nombre=req.session.nombre
+		// res.locals.nombre=true
+		res.locals.tipo=req.session.usuario //el tipo de usuario
+		res.locals.docente=req.session.docente
+		res.locals.admin=req.session.admin
+		res.locals.aspirante=req.session.aspirante
+		//si es coordinador
+		// if(res.locals.tipo=='aspirante'){
+		// 	res.locals.aspirante=true
+		// }
+		// else if (res.locals.tipo=='coordinador'){
+		// 	res.locals.admin=true
+		// }
+		// else{
+		// 	res.locals.docente=true
+		// }
+
+		console.log(res.locals.docente+ " ahora miremos coordinador"+res.locals.admin+ " ahora aspirante "+res.locals.aspirante)
 	}
 	next()
 })
