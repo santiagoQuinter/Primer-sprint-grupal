@@ -316,23 +316,25 @@ const guardarAspirante = () =>{
 }
 
 
-const verInscritos = () => {
+const verInscritos = (listadoC, listadoA, listadoU) => {
+    console.log ("lista de cursos"+ listadoC+ "lista de aspirantes "+listadoA)
+    console.log("cantidad cursos "+listadoC[0].nombre)
     //lista los aspirante
     //listarAspirante();
     //lista los usuarios
-    listar_usuarios();
-    //lista los cursos
-    listarUsuarioCurso();
-    //lista los cursos
-    listar();
+    // listar_usuarios();
+    // //lista los cursos
+    // listarUsuarioCurso();
+    // //lista los cursos
+    // listar();
     let retorno=``;
     
     //Recorro la lista de cursos y por cada uno busco los aspirantes de dicho curso
-    for(i=0;i<listaCursos.length;i++){
+    for(i=0;i<listadoC.length;i++){
         //console.log("aaaaaaaaaaaa"+listaCursos[i].id);
         
 
-        let matriculado = listaUsuarioCurso.filter(buscar => (buscar.curso == listaCursos[i].id));
+        let matriculado = listadoA.filter(buscar => (buscar.id == listadoC[i].id));
 
 
         //console.log("matriculado"+ matriculado[0].curso);
@@ -341,7 +343,7 @@ const verInscritos = () => {
                     <div class="card-header" id="heading${i}">
                         <h5 class="mb-0">
                             <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
-                            Nombre del curso: ${listaCursos[i].nombre}
+                            Nombre del curso: ${listadoC[i].nombre}
                             </button>
                         </h5>
                     </div>  
@@ -367,18 +369,20 @@ const verInscritos = () => {
             if (matriculado.length > 0){                     
                 matriculado.forEach(aspirante => {
                     
-                    
-                    listar_usuarios();
-                    let inscritos = listaUsuario.find(buscar => buscar.id == aspirante.identificacion);
+              
+                    let inscritos = listadoU.filter(buscar => buscar.cedula == aspirante.identificacion);
+                    console.log("inscritos      "+inscritos[0].cedula)
                     
                     if(inscritos){
-                    retorno += `<tr>    
-                                <td>${inscritos.id}</td>                
-                                <td>${inscritos.nombre}</td>
-                                <td>${inscritos.correo}</td>
-                                <td>${inscritos.telefono}</td>
+                        inscritos.forEach(inscrito=>{
+                                retorno += `<tr>    
+                                <td>${inscrito.cedula}</td>                
+                                <td>${inscrito.nombre}</td>
+                                <td>${inscrito.correo}</td>
+                                <td>${inscrito.telefono}</td>
                                 <td><button type="submit" name="EliminarAspirante" value="${aspirante.identificacion}" class="btn btn-danger"> Eliminar</button> </td>
                                 </tr>`;
+                            })
                     }        
                 });
         }
@@ -393,22 +397,23 @@ const verInscritos = () => {
         return retorno;  
 }
 
-const eliminarAspirante = (aspirante)=>{
-    //console.log("Identificación del estudiante a eliminar: " + aspirante);
-    listarUsuarioCurso();
-    let indice = listaUsuarioCurso.findIndex(buscar => buscar.identificacion == aspirante);
-    if(!indice){
-        //console.log('El aspirante no existe');
-    }else {
-        //Remplaza la lista de estudiantes por la nueva(sin el estudiante eliminado)
-        listaUsuarioCurso.splice(indice,1);
-        guardarUsuarioCurso();
-        //console.log("Identificación del estudiante a eliminar: " + aspirante);
-        return `<div class="alert alert-danger" role="alert">
-                El aspirante ha sido eliminado exitosamente
-                </div>`;
-    }   
-}
+
+// const eliminarAspirante = (aspirante)=>{
+//     //console.log("Identificación del estudiante a eliminar: " + aspirante);
+//     listarUsuarioCurso();
+//     let indice = listaUsuarioCurso.findIndex(buscar => buscar.identificacion == aspirante);
+//     if(!indice){
+//         //console.log('El aspirante no existe');
+//     }else {
+//         //Remplaza la lista de estudiantes por la nueva(sin el estudiante eliminado)
+//         listaUsuarioCurso.splice(indice,1);
+//         guardarUsuarioCurso();
+//         //console.log("Identificación del estudiante a eliminar: " + aspirante);
+//         return `<div class="alert alert-danger" role="alert">
+//                 El aspirante ha sido eliminado exitosamente
+//                 </div>`;
+//     }   
+// }
 
 //Actualiza el curso de disponible a cerrado y de cerrado a disponible
 const actualizarCurso =(curso)=>{
@@ -577,7 +582,6 @@ module.exports = {
     listarCursoInscribir,
     inscribirAspirante,
     verInscritos,
-    eliminarAspirante,
     actualizarCurso,
     crear_usuario,
     mostrar_usuarios,

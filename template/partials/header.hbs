@@ -7,12 +7,28 @@
         <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css">
         <title>Cursos de educación continua</title>
         <link rel="stylesheet" href="css/style.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
     </head>
     <body>
-        <header>
-            <center><h1>Bienvenido a la página de cursos de educación continua</h1></center>
-        </header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+         <header>
+            {{!-- <center><h1>Bienvenido a la página de cursos de educación continua</h1></center> --}}
+ 
+        {{!-- <div class="row">
+        <div class="col-sm-6 col-md-4">
+          <img src="img/logo-ppal.jpg" class="img-fluid" >
+        </div>   
+        <div class="d-none d-md-block col-md-4">
+            <img src="img/gel2.jpg" class="img-fluid" >
+        </div>
+         --}}
+         <div class="col-sm-12 col-md-12">
+          <h3> {{titulo}} </h3>
+        </div>
+    </div>
+        </header> 
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="position:fixed; top:0%; width: 100% !important" >
             <a class="navbar-brand" href="./">INICIO</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -21,48 +37,153 @@
                 <ul class="navbar-nav mr-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/crear_curso">CREAR CURSOS</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/ver_curso">VER CURSOS</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="/ver_curso_interesado">VER CURSOS</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/inscribir">INSCRIBIR</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/ver_inscritos">VER INSCRITOS</a>
+            {{#if sesion}}
+                {{#if admin}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/crear_curso">CREAR CURSOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ver_curso">VER CURSOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/inscribir">INSCRIBIR</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ver_inscritos">VER INSCRITOS</a>
 
-                </li> 
-                <li class="nav-item">
-                    <a class="nav-link" href="/crear_usuario">CREAR USUARIO</a>
-                </li>                 
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link" href="/crear_usuario">CREAR USUARIO</a>
+                    </li>                 
 
-                </li>  
-                <li class="nav-item">
-                    <a class="nav-link" href="/actualizar_Usuario">ACTUALIZAR</a>
-                </li>        
-                <li class="nav-item">
-                    <a class="nav-link" href="/ver_usuario">VER USUARIOS</a>
-                </li>  
-                <li class="nav-item">
-                    <a class="nav-link" href="/eliminar_curso">VER MIS CURSOS</a>
-                </li>         
-                </ul>
-              
-                <span class="navbar-text"></span>
-                               
-                </ul>
-                <span class="navbar-text">
-                </span>
-                <form class="form-inline my-2 my-lg-0" action="/ingresar" method="post">
-                    <input class="form-control mr-sm-2" type="text" name="usuario" placeholder="usuario" >  
-                    <input class="form-control mr-sm-2" type="password" name="password" placeholder="Contraseña" >                 
-                    <button class="btn btn-primary my-2 my-sm-0" type="submit">Ingresar</button>
-                </form>  
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="/actualizar_Usuario">ACTUALIZAR</a>
+                    </li>        
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ver_usuario">VER USUARIOS</a>
+                    </li>  
+                    <li class="nav-item">
+                        <a class="nav-link" href="/eliminar_curso">VER MIS CURSOS</a>
+                    </li>         
+                    </ul>
+                
+                    <span class="navbar-text"></span>
+                                
+                    </ul>
+                    <span class="navbar-text">
+                    </span>
+                    <form class="form-inline my-2 my-lg-0" action="/salir" method="get">  
+                                  
+                        <button class="btn btn-primary my-2 my-sm-0" type="submit">Salir</button>
+                    </form>  
+                {{else}}
+                     {{#if aspirante}}
+                         <li class="nav-item">
+                            <a class="nav-link" href="/inscribir">INSCRIBIR</a>
+                        </li>
+                        </ul>
+                        <form class="form-inline my-2 my-lg-0" action="/salir" method="get">      
+                            <button style="background-color:#343a40; border: none;" class="btn btn-primary  type="submit"><i style="color:white; size: 100px !important" class="fa fa-sign-out"></i></button>
+                        </form>  
+                    {{else}}
+                        {{#if docente}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/eliminar_curso">VER MIS CURSOS</a>
+                            </li> 
+                            <form class="form-inline my-2 my-lg-0" action="/salir" method="get">      
+                                <button class="btn btn-primary my-2 my-sm-0" type="submit">Salir</button>
+                            </form> 
+                        {{/if}}
+                    {{/if}}       
+                {{/if}}
+            {{else}}
+                    </ul>
+                    <a href="#myModal" data-toggle="modal" ><i class="fa fa-user-circle" style="font-size:30px; color:white" aria-hidden="true"></i></a>
+            {{/if}}
             </div>
         </nav>
-        
+        <a href="#myModal" class="trigger-btn" data-toggle="modal"></a>
+
+    <!-- Modal HTML -->
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog modal-login">
+            <div class="modal-content">
+                <div class="modal-header">				
+                    <h4 class="modal-title">Iniciar Sesión</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form action="/ingresar" method="post">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <input type="text" class="form-control" name="usuario" placeholder="Nombre de Usuario" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <input type="password" class="form-control" name="password" placeholder="Contraseña" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block btn-lg">Iniciar Sesión</button>
+                        </div>
+                        <p class="hint-text"><a href="#">¿Olvidaste tu Contraseña?</a></p>
+                    </form>
+                </div>
+                <div class="modal-footer">¿Aun no Tienes un Cuenta? <a href="#myModal2" data-toggle="modal" data-dismiss="modal">Regístrate</a></div>
+            </div>
+        </div>
+    </div>  
+
+
+    <div id="myModal2" class="modal fade">
+        <div class="modal-dialog modal-login">
+            <div class="modal-content">
+                <div class="modal-header">				
+                    <h4 class="modal-title">Registrase</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form action="/" method="post">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+                                <input type="text" class="form-control" name="cedula" placeholder="Cedula" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <input type="text" class="form-control" name="nombre" placeholder="Nombre" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                <input type="text" class="form-control" name="correo" placeholder="Correo" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                <input type="text" class="form-control" name="telefono" placeholder="Telefono">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <input type="password" class="form-control" name="contraseña" placeholder="Contraseña" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block btn-lg">Regitrarse</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>  
