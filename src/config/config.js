@@ -13,11 +13,11 @@ else {
 
 process.env.URLDB = URLDB
 
-if(!process.env.URLDB){
+// if(!process.env.URLDB){
 
-    process.env.URLDB = 'mongodb://localhost:27017/cursosplataformavirtual'
+//     process.env.URLDB = 'mongodb://localhost:27017/cursosplataformavirtual'
     
-    }
+//     }
 // if(process.env.NODE_ENV !=='local'){
 //     require('dotenv').config();
 //     process.env.URLDB = 'mongodb://localhost:27017/cursosplataformavirtual'
