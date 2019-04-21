@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'local'){
     URLDB = 'mongodb://localhost:27017/cursosplataformavirtual';
 }
 else {
-    URLDB = 'mongodb+srv://devtimeadmin:<BeyondDevTime>@divetimedatabase-arktg.mongodb.net/test?retryWrites=true';
+    URLDB = 'mongodb+srv://admin:<1234>@nodejstdea-1cqmw.mongodb.net/cursosplataformavirtual?retryWrites=true';
 }
 
 process.env.URLDB = URLDB
