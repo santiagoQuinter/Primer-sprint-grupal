@@ -10,5 +10,5 @@ else {
     URLDB = 'mongodb+srv://admin:<1234>@nodejstdea-1cqmw.mongodb.net/cursosplataformavirtual?retryWrites=true';
 }
 
-// process.env.URLDB = 'mongodb://localhost:27017/cursosplataformavirtual'
+process.env.URLDB = URLDB
 
