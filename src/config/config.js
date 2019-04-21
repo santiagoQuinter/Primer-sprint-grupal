@@ -1,5 +1,5 @@
 process.env.PORT=process.env.PORT || 3000;
-process.env.NODE_ENV=process.env.PORT.NODE_ENV || "local";
+process.env.NODE_ENV=process.env.PORT.NODE_ENV || "heroku";
 let URLDB
 console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'local'){
