@@ -80,7 +80,7 @@ app.use(require('./routes/index'));
 
 
 
-mongoose.connect('mongodb+srv://devtimeadmin:BeyondDevTime@divetimedatabase-arktg.mongodb.net/test?retryWrites=true', {useNewUrlParser: true}, (err, resultado) => {
+mongoose.connect('mongodb+srv://devtimeadmin:BeyondDevTime@divetimedatabase-arktg.mongodb.net/test?retryWrites=true', (err, resultado) => {
 	if (err){
 		// return console.log("No se pudo conectar")
 		return console.log(err)
