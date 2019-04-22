@@ -13,7 +13,9 @@ else {
     URLDB = 'mongodb+srv://devtimeadmin:BeyondDevTime@divetimedatabase-arktg.mongodb.net/test?retryWrites=true';
 }
 
-
+if(NODE_ENV === 'production'){
+	URLDB = 'mongodb+srv://devtimeadmin:BeyondDevTime@divetimedatabase-arktg.mongodb.net/test?retryWrites=true';
+}
 	
 
 
