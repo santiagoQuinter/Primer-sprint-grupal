@@ -78,6 +78,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //Routes
 app.use(require('./routes/index'));
 
+
+console.log('Variable de config ' + process.env.URLDB)
 mongoose.connect(process.env.URLDB, {useNewUrlParser: true}, (err, resultado) => {
 	if (err){
 		return console.log("No se pudo conectar")
