@@ -1,5 +1,5 @@
 process.env.PORT=process.env.PORT || 3000;
-process.env.NODE_ENV=process.env.PORT.NODE_ENV || "local";
+process.env.NODE_ENV=process.env.NODE_ENV || "local";
 let URLDB
 URLDB = 'mongodb+srv://devtimeadmin:BeyondDevTime@divetimedatabase-arktg.mongodb.net/test?retryWrites=true'
 console.log("desde config con PORT: " +process.env.PORT.NODE_ENV);
