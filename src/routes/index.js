@@ -269,6 +269,7 @@ app.post('/inscribir_verificado', (req, res)=>{
         })
 
         Curso.find({id : req.body.curso},(err,respuesta2)=>{
+            console.log(typeof (respuesta2));
 
             if (err){
                 return console.log(err)		}
@@ -281,7 +282,7 @@ app.post('/inscribir_verificado', (req, res)=>{
             }		
             res.render ('inscribir_verificado', {
                     mostrar : `<div class="alert alert-success" role="alert">
-                    El usuario con la id ${resultado.identificacion}, ha sido inscrito correctamente en el curso ${respuesta2.nombre}
+                    El usuario con la id ${resultado.identificacion}, ha sido inscrito correctamente en el curso ${respuesta2[0].nombre}
                             </div>`
                     
                 })	
