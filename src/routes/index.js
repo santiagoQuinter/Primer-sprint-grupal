@@ -309,14 +309,18 @@ app.get('/inscribir',(req, res)=>{
             if(err){
 
             }
-            console.log(usu);
+            else{
+            console.log(usu.cedula);
+            console.log(usu.nombre);
+            console.log(usu.correo);
+            console.log(usu.telefono);
             res.render ('inscribir',{                 
-                identificacion: parseInt(usu.cedula),
-                nombre: usu.nombre,
-                correo: usu.correo,
-                telefono: parseInt(usu.telefono),
+                identificacion : parseInt(usu.cedula),
+                nombre : usu.nombre,
+                correo : usu.correo,
+                telefono : parseInt(usu.telefono),
                 listado : respuesta
-            });
+            });}
 
         });
 		
