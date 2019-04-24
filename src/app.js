@@ -80,8 +80,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(require('./routes/index'));
 
 
-console.log(process.env.URLDB + '   variableeeeeeeeeeeeeeee')
-mongoose.connect(process.env.URLDB, {useNewUrlParser: true},(err, resultado) => {
+
+console.log('Variable de config ' + process.env.URLDB)
+mongoose.connect(process.env.URLDB, {useNewUrlParser: true}, (err, resultado) => {
+
+
 	if (err){
 		// return console.log("No se pudo conectar")
 		return console.log(err)

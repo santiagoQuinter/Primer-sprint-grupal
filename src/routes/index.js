@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const Curso = require('../models/curso');
 const Usuario = require('../models/usuario')
 const Aspirante_inscrito = require('../models/aspirante_inscrito')
-//const session=require ('express-session')
+const session=require ('express-session')
 
 require('./../helper/helpers')
 
@@ -18,7 +18,11 @@ app.set('view engine', 'hbs')
 app.set('views', dirViews)
 hbs.registerPartials(dirPartials)
 
-
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+  }))
 
 //Cuando el usuario ingrese a la platafora(url)
 app.get('/',(req, res)=>{
@@ -163,6 +167,7 @@ app.post('/ingresar', (req,res)=>{
         if(!bcrypt.compareSync(req.body.password, resultado.password) ){
             return res.render('ingresar',{mensaje:"Contraseña incorrecta"})
         }
+     req.session._id=resultado._id
      req.session.identificacion=resultado.cedula
      req.session.usuario=resultado.tipo 
      req.session.nombre=resultado.nombre
@@ -205,6 +210,7 @@ app.post('/',(req, res)=>{
                         </div>`
 			});			
         }	
+        
         req.session.usuario=usuario.tipo
         req.session.aspirante=true
         req.session.admin=false	
@@ -323,10 +329,26 @@ app.get('/inscribir',(req, res)=>{
     Curso.find({},(err,respuesta)=>{
 		if (err){
 			return console.log(err)
-		}
-		res.render ('inscribir',{ 
-			listado : respuesta
-		});
+        }
+        Usuario.findById(req.session._id, (err, usu) =>{
+            if(err){
+
+            }
+            else{
+            console.log(usu.cedula);
+            console.log(usu.nombre);
+            console.log(usu.correo);
+            console.log(usu.telefono);
+            res.render ('inscribir',{                 
+                identificacion : parseInt(usu.cedula),
+                nombre : usu.nombre,
+                correo : usu.correo,
+                telefono : parseInt(usu.telefono),
+                listado : respuesta
+            });}
+
+        });
+		
 	});
 });
 
