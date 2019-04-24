@@ -4,7 +4,10 @@
     <div>
          <form action='/actualizar_curso' method='post'>
             <h3>Actualizar estado de un curso</h3>
-            {{{listarCursoInscribir listado}}}
+            <p>Para poder cambiar el estado de un curso de disponible a cerrado es necesario tener 
+              un docente asignado al curso
+            </p>
+            {{{listarCursoActualizar listado docentes}}}
             <button type="submit" class="btn btn-primary btn-lg"> Actualizar &raquo; </button>  
           </form>         
     </div>

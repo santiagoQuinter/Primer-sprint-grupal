@@ -166,6 +166,7 @@ const mostrar = (listadoCursos)=>{
                    <th scope="col">MODALIDAD</th>
                    <th scope="col">INTENSIDAD HORARIA</th>
                    <th scope="col">ESTADO</th>
+                   <th scope="col">DOCENTE</th>
                    </thead>
                    <tbody>`;    
 
@@ -178,6 +179,7 @@ const mostrar = (listadoCursos)=>{
                 <td> ${curso.modalidad} </td>
                 <td> ${curso.intensidad} </td>
                 <td> ${curso.estado} </td>
+                <td> ${curso.docente} </td>
                 </tr>`;
         
     });
@@ -217,7 +219,24 @@ const listarCursosInteresado =(listado)=> {
     return retorno;
 }
 
-
+//funcion para actualizar
+const listarCursoActualizar =(listado, docentes)=> {
+    let retorno = `<select class="custom-select  col-5" name="curso" id="cursoSeleccionado">`;    
+    listado.forEach(curso => {
+        if(curso.estado == 'Disponible'){
+            retorno += `<option value="${curso.id}">${curso.nombre}</option>`;
+        }
+    });
+    retorno += `</select>`;
+    retorno +=`<select class="custom-select  col-5" name="docente" id="docenteSeleccionado">`;    
+    docentes.forEach(profesor=> {
+            retorno += `<option value="${profesor.nombre}">${profesor.nombre}</option>`;
+    
+    });
+    retorno += `</select>`;
+    return retorno;
+}
+//funcion listar cursos inscribir
 const listarCursoInscribir =(listado)=> {
     let retorno = `<select class="custom-select  col-5" name="curso" id="cursoSeleccionado">`;    
     listado.forEach(curso => {
@@ -228,7 +247,7 @@ const listarCursoInscribir =(listado)=> {
     retorno += `</select>`;
     return retorno;
 }
-
+ 
 //Las siguientes funciones son para el ---------------aspirante--------------------
 const inscribirAspirante = (aspirante) => {
     //traemos el listado antes de agregar
@@ -410,10 +429,10 @@ const verInscritos = (listadoC, listadoA, listadoU) => {
 //         guardarUsuarioCurso();
 //         //console.log("Identificación del estudiante a eliminar: " + aspirante);
 //         return `<div class="alert alert-danger" role="alert">
-//                 El aspirante ha sido eliminado exitosamente
+//                 El aspirante  ha sido eliminado exitosamente.
 //                 </div>`;
 //     }   
-// }
+// } 
 
 //Actualiza el curso de disponible a cerrado y de cerrado a disponible
 const actualizarCurso =(curso)=>{
@@ -547,12 +566,41 @@ else {
 }
 }
     
-
+//Listar los cursos de un aspirante
+const verCursosA = (listadoa, listadoc)=>{
+        let retorno=`<table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">CURSO</th>
+            <th scope="col">ID</th>
+            <th scope="col">ELIMINAR</th>
+        </tr>
+        </thead>`;
+               
+        for(i=0; i<listadoa.length; i++){
+            let curso_matriculado =listadoc.filter(buscar =>( buscar.id ==listadoa[i].id))
+            retorno += `
+                <tbody>
+                <form action='/eliminar_aspirante' method='post'>`; 
+            if (curso_matriculado.length>0){
+            curso_matriculado.forEach(curso => {
+                retorno += `<tr>
+                                <td> ${curso.nombre} </td>
+                                <td> ${curso.id} </td>
+                                <td><button type="submit" name="EliminarAspirante" value="${listadoa[i].identificacion}" class="btn btn-danger"> Eliminar</button> </td>
+                            </tr>`;
+            });
+        }
+    }
+        retorno += `</tbody>
+        </table>
+        </div>
+        </div>
+        </div>`; 
+        return retorno;
+}
 
          
-        
-    
-    
 
 
 
@@ -580,6 +628,7 @@ module.exports = {
     mostrar,
     listarCursosInteresado,
     listarCursoInscribir,
+    listarCursoActualizar,
     inscribirAspirante,
     verInscritos,
     actualizarCurso,
@@ -589,5 +638,6 @@ module.exports = {
     modificarUsuario,
     eliminar_curso,
     mostrar_curso,
-    eliminarCurso
+    eliminarCurso,
+    verCursosA
 }
