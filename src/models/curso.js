@@ -31,6 +31,10 @@ const cursoSchema = new Schema({
     estado:{
         type:String,
         default: 'Disponible'
+    },
+    docente:{
+        type:String,
+        default: 'Sin asignar'
     }
 });
 

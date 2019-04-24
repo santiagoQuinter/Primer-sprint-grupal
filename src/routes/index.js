@@ -45,6 +45,24 @@ app.get('/salir',(req, res)=>{
 app.get('/crear_curso',(req,res)=>{
     res.render('crear_curso');
 });
+//Llama a la página de los cursos de un aspirante
+app.get('/curso_aspirante',(req,res)=>{
+    Aspirante_inscrito.find({identificacion:req.session.identificacion}, (err, aspirante)=>{
+        if (err){
+			return console.log(err)
+        }
+        Curso.find({},(err,cursos_a)=>{
+            if (err){
+                return console.log(err)
+            }
+            res.render('curso_aspirante', {
+                listadoa:aspirante,
+                listadoc:cursos_a
+            });
+        })
+    })
+});
+
 //llama a la página ver_inscritos
 app.get('/ver_inscritos', (req,res) => {
 
@@ -149,8 +167,8 @@ app.post('/ingresar', (req,res)=>{
         if(!bcrypt.compareSync(req.body.password, resultado.password) ){
             return res.render('ingresar',{mensaje:"Contraseña incorrecta"})
         }
-
-     req.session._id=resultado._id    
+     req.session._id=resultado._id
+     req.session.identificacion=resultado.cedula
      req.session.usuario=resultado.tipo 
      req.session.nombre=resultado.nombre
      if(resultado.tipo=='aspirante'){
@@ -214,10 +232,17 @@ app.get('/ver_curso', (req,res) => {
 	Curso.find({},(err,respuesta)=>{
 		if (err){
 			return console.log(err)
-		}
-		res.render ('ver_curso',{
-			listado : respuesta
-		});
+        }
+        Usuario.find({tipo:'docente'},(req, usuario)=>{
+            if (err){
+                return console.log(err)
+            } 
+            res.render ('ver_curso',{
+                listado : respuesta,
+                docentes:usuario
+            });
+        })
+		
 	});
 });
 
@@ -239,7 +264,7 @@ app.get('/ver_curso_interesado',(req,res)=>{
 });
 
 app.post('/actualizar_curso',(req,res)=>{
-    Curso.findOneAndUpdate({id: req.body.curso},{estado:'Cerrado'},{new:true},(err,resultado)=>{
+    Curso.findOneAndUpdate({id: req.body.curso},{estado:'Cerrado', docente:req.body.docente},{new:true},(err,resultado)=>{
         if(err){
             return console.log('error al actualiar curso' + err);
         }

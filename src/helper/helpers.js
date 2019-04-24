@@ -40,6 +40,9 @@ hbs.registerHelper('listarCursosInteresado', (listado)=>{
     return funciones.listarCursosInteresado(listado);
 });
 
+hbs.registerHelper('listarCursoActualizar', (listado, docentes)=>{
+    return funciones.listarCursoActualizar(listado, docentes);
+});
 hbs.registerHelper('listarCursoInscribir', (listado)=>{
     return funciones.listarCursoInscribir(listado);
 });
@@ -73,7 +76,10 @@ hbs.registerHelper('eliminarCurso',(identificacion, curso)=>{
     return funciones.eliminarCurso(identificacion, curso);
 
 });
+hbs.registerHelper('verCursosA',(listadoa, listadoc)=>{
+    return funciones.verCursosA(listadoa, listadoc);
 
+});
 hbs.registerHelper('actualizarCurso',(curso)=>{
     return funciones.actualizarCurso(curso);
 });
