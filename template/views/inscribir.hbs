@@ -2,19 +2,19 @@
 <form action="/inscribir_verificado" method="post">
     <div class="form-group">
         <label for="identificacion">Documento de identidad</label>
-        <input type="number" name="identificacion" class="form-control" required>
+        <input type="number" name="identificacion" value="{{identificacion}}" class="form-control" required>
     </div>
     <div class="form-group">
         <label for="nombre">Nombre</label>
-        <input type="string" name="nombre" class="form-control" required>
+        <input type="string" name="nombre" value="{{nombre}}" class="form-control" required>
     </div>
     <div class="form-group">
         <label for="Correo">Correo</label>
-        <input type="string" name="correo" class="form-control" required>
+        <input type="string" name="correo" value="{{correo}}" class="form-control" required>
     </div>
     <div class="form-group">
         <label for="Telefono">Telefono</label>
-        <input type="number" name="telefono" class="form-control" required>
+        <input type="number" name="telefono" value="{{telefono}}" class="form-control" required>
     </div>
     <div class="form-group">
         <label for="curso">Seleccione un curso</label>

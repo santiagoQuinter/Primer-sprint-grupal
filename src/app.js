@@ -49,8 +49,9 @@ app.use(session({
 
   app.use((req, res, next)=> {
 	if(req.session.usuario){
+
 		res.locals.sesion=true
-		// res.locals.nombre=true
+		//res.locals.identificacion=req.session.identificacion
 		res.locals.tipo=req.session.usuario //el tipo de usuario
 		res.locals.docente=req.session.docente
 		res.locals.admin=req.session.admin
@@ -79,10 +80,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(require('./routes/index'));
 
 
+
 console.log('Variable de config ' + process.env.URLDB)
 mongoose.connect(process.env.URLDB, {useNewUrlParser: true}, (err, resultado) => {
+
+
 	if (err){
-		return console.log("No se pudo conectar")
+		// return console.log("No se pudo conectar")
+		return console.log(err)
 	}
 	console.log("conectado")
 });

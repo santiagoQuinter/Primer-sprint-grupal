@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const Curso = require('../models/curso');
 const Usuario = require('../models/usuario')
 const Aspirante_inscrito = require('../models/aspirante_inscrito')
-//const session=require ('express-session')
+const session=require ('express-session')
 
 require('./../helper/helpers')
 
@@ -18,7 +18,11 @@ app.set('view engine', 'hbs')
 app.set('views', dirViews)
 hbs.registerPartials(dirPartials)
 
-
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+  }))
 
 //Cuando el usuario ingrese a la platafora(url)
 app.get('/',(req, res)=>{
@@ -41,6 +45,24 @@ app.get('/salir',(req, res)=>{
 app.get('/crear_curso',(req,res)=>{
     res.render('crear_curso');
 });
+//Llama a la página de los cursos de un aspirante
+app.get('/curso_aspirante',(req,res)=>{
+    Aspirante_inscrito.find({identificacion:req.session.identificacion}, (err, aspirante)=>{
+        if (err){
+			return console.log(err)
+        }
+        Curso.find({},(err,cursos_a)=>{
+            if (err){
+                return console.log(err)
+            }
+            res.render('curso_aspirante', {
+                listadoa:aspirante,
+                listadoc:cursos_a
+            });
+        })
+    })
+});
+
 //llama a la página ver_inscritos
 app.get('/ver_inscritos', (req,res) => {
 
@@ -145,6 +167,8 @@ app.post('/ingresar', (req,res)=>{
         if(!bcrypt.compareSync(req.body.password, resultado.password) ){
             return res.render('ingresar',{mensaje:"Contraseña incorrecta"})
         }
+     req.session._id=resultado._id
+     req.session.identificacion=resultado.cedula
      req.session.usuario=resultado.tipo 
      req.session.nombre=resultado.nombre
      if(resultado.tipo=='aspirante'){
@@ -186,6 +210,7 @@ app.post('/',(req, res)=>{
                         </div>`
 			});			
         }	
+        
         req.session.usuario=usuario.tipo
         req.session.aspirante=true
         req.session.admin=false	
@@ -207,10 +232,17 @@ app.get('/ver_curso', (req,res) => {
 	Curso.find({},(err,respuesta)=>{
 		if (err){
 			return console.log(err)
-		}
-		res.render ('ver_curso',{
-			listado : respuesta
-		});
+        }
+        Usuario.find({tipo:'docente'},(req, usuario)=>{
+            if (err){
+                return console.log(err)
+            } 
+            res.render ('ver_curso',{
+                listado : respuesta,
+                docentes:usuario
+            });
+        })
+		
 	});
 });
 
@@ -232,7 +264,7 @@ app.get('/ver_curso_interesado',(req,res)=>{
 });
 
 app.post('/actualizar_curso',(req,res)=>{
-    Curso.findOneAndUpdate({id: req.body.curso},{estado:'Cerrado'},{new:true},(err,resultado)=>{
+    Curso.findOneAndUpdate({id: req.body.curso},{estado:'Cerrado', docente:req.body.docente},{new:true},(err,resultado)=>{
         if(err){
             return console.log('error al actualiar curso' + err);
         }
@@ -297,10 +329,26 @@ app.get('/inscribir',(req, res)=>{
     Curso.find({},(err,respuesta)=>{
 		if (err){
 			return console.log(err)
-		}
-		res.render ('inscribir',{ 
-			listado : respuesta
-		});
+        }
+        Usuario.findById(req.session._id, (err, usu) =>{
+            if(err){
+
+            }
+            else{
+            console.log(usu.cedula);
+            console.log(usu.nombre);
+            console.log(usu.correo);
+            console.log(usu.telefono);
+            res.render ('inscribir',{                 
+                identificacion : parseInt(usu.cedula),
+                nombre : usu.nombre,
+                correo : usu.correo,
+                telefono : parseInt(usu.telefono),
+                listado : respuesta
+            });}
+
+        });
+		
 	});
 });
 
