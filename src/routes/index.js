@@ -227,7 +227,35 @@ app.post('/',(req, res)=>{
 		});		
 	});	
 });
+//traer la pagina que tiene los cursos de un docente
 
+app.get('/curso_docente', (req,res) => {
+    
+	Curso.find({docente:req.session.identificacion},(err,curso)=>{
+    console.log(curso) 
+		if (err){
+			return console.log(err)
+        }
+        Usuario.find({},(err, usuario)=>{
+            if (err){
+                return console.log(err)
+            } 
+            Aspirante_inscrito.find({},(err, aspirante)=>{
+                if (err){   
+                    return console.log(err)
+                } 
+                console.log("imprima curso"+ curso)
+                res.render ('curso_docente',{
+                    listadoC :curso,
+                    listadoU:usuario,
+                    listadoA:aspirante
+                });
+            })
+	    });
+    });
+});
+
+//vista de los cursos desde la perspectiva del coordinador
 app.get('/ver_curso', (req,res) => {
 	Curso.find({},(err,respuesta)=>{
 		if (err){
@@ -245,7 +273,7 @@ app.get('/ver_curso', (req,res) => {
 		
 	});
 });
-
+//los cursos que le aparecen a una persona que ingrese a la pagina
 app.get('/ver_curso_interesado',(req,res)=>{
     Curso.find({estado:'Disponible'},(err,respuesta)=>{
         if(err){

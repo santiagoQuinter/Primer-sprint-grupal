@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="css/style.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="icon" type="img/png" href="/img/logo.png" />
 
     </head>
     <body>
@@ -88,12 +89,12 @@
                         </li>   
                         </ul>
                         <form class="form-inline my-2 my-lg-0" action="/salir" method="get">      
-                            <button style="background-color:#343a40; border: none;" class="btn btn-primary  type="submit"><i style="color:white; size: 100px !important" class="fa fa-sign-out"></i></button>
+                            <button style="background-color:#343a40; border: none;" class="btn btn-primary"  type="submit"><i style="color:white; size: 100px !important" class="fa fa-sign-out"></i></button>
                         </form>  
                     {{else}}
                         {{#if docente}}
                             <li class="nav-item">
-                                <a class="nav-link" href="/eliminar_curso">VER MIS CURSOS</a>
+                                <a class="nav-link" href="/curso_docente">VER MIS CURSOS</a>
                             </li> 
                             <form class="form-inline my-2 my-lg-0" action="/salir" method="get">      
                                 <button class="btn btn-primary my-2 my-sm-0" type="submit">Salir</button>
