@@ -392,6 +392,16 @@ app.get('/inscribir',(req, res)=>{
 	});
 });
 
+app.get('/ingresarChat',(req,res)=>{
+    res.render('ingresarChat');
+});
+
+app.get('/chat',(req,res)=>{
+    res.render('chat',{
+        nombre:req.body.nombre
+    });
+});
+
 app.get('*',(req,res)=>{
     res.render('error',{
         //debe traer estudiante porque header lo está pidiendo
