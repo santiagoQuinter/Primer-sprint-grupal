@@ -204,7 +204,7 @@ app.post('/',(req, res)=>{
 	})
     const msg={
         to:req.body.correo,
-        from:'mirosaless@unal.edu.co',
+        from:'thelife231@gmail.com',
         subject: 'Bienvenido',
         text: 'Bienvenido a la pagina de Node.js'
     }
