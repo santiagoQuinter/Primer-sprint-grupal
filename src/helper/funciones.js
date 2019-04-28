@@ -153,7 +153,7 @@ const mostrar_usuarios = ()=>{
 
 
 //Función para mostrar los cursoss
-const mostrar = (listadoCursos)=>{
+const mostrar = (listadoCursos, docentes)=>{
     //Trae los elementos de json
     //Recorreo la lista de cursos para imprimir cada uno y sus notas
     // \sirve para salto de linea
@@ -169,18 +169,25 @@ const mostrar = (listadoCursos)=>{
                    <th scope="col">DOCENTE</th>
                    </thead>
                    <tbody>`;    
-
+    
     listadoCursos.forEach(curso => {
-    retorno += ` <tr>
-                <td> ${curso.id} </td>
-                <td> ${curso.nombre} </td>
-                <td> ${curso.valor}</td>
-                <td> ${curso.descripcion} </td>
-                <td> ${curso.modalidad} </td>
-                <td> ${curso.intensidad} </td>
-                <td> ${curso.estado} </td>
-                <td> ${curso.docente} </td>
-                </tr>`;
+        let profesor=docentes.find(docente => docente.cedula == curso.docente)
+        console.log("profesor  en la funcion"+profesor)
+        if (!profesor || profesor.cedula==0){
+            var nombre="Sin Asignar"
+        }else{
+            var nombre=profesor.nombre
+        }
+        retorno += ` <tr>
+                    <td> ${curso.id} </td>
+                    <td> ${curso.nombre} </td>
+                    <td> ${curso.valor}</td>
+                    <td> ${curso.descripcion} </td>
+                    <td> ${curso.modalidad} </td>
+                    <td> ${curso.intensidad} </td>
+                    <td> ${curso.estado} </td>
+                    <td> ${nombre} </td>
+                    </tr>`;
         
     });
     retorno += `</tbody>
@@ -230,7 +237,7 @@ const listarCursoActualizar =(listado, docentes)=> {
     retorno += `</select>`;
     retorno +=`<select class="custom-select  col-5" name="docente" id="docenteSeleccionado">`;    
     docentes.forEach(profesor=> {
-            retorno += `<option value="${profesor.nombre}">${profesor.nombre}</option>`;
+            retorno += `<option value="${profesor.cedula}">${profesor.nombre}</option>`;
     
     });
     retorno += `</select>`;
@@ -336,8 +343,7 @@ const guardarAspirante = () =>{
 
 
 const verInscritos = (listadoC, listadoA, listadoU) => {
-    console.log ("lista de cursos"+ listadoC+ "lista de aspirantes "+listadoA)
-    console.log("cantidad cursos "+listadoC[0].nombre)
+    
     //lista los aspirante
     //listarAspirante();
     //lista los usuarios
@@ -362,7 +368,7 @@ const verInscritos = (listadoC, listadoA, listadoU) => {
                     <div class="card-header" id="heading${i}">
                         <h5 class="mb-0">
                             <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
-                            Nombre del curso: ${listadoC[i].nombre}
+                             ${listadoC[i].nombre}
                             </button>
                         </h5>
                     </div>  

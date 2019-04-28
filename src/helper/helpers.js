@@ -32,8 +32,8 @@ hbs.registerHelper('crearUsuario',(id, nombre, correo, telefono)=>{
     return funciones.crear_usuario(usuario);
 });
 
-hbs.registerHelper('listarCursos',(listado)=>{
-    return funciones.mostrar(listado);
+hbs.registerHelper('listarCursos',(listado, docentes)=>{
+    return funciones.mostrar(listado, docentes);
 });
 
 hbs.registerHelper('listarCursosInteresado', (listado)=>{

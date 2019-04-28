@@ -33,8 +33,8 @@ const cursoSchema = new Schema({
         default: 'Disponible'
     },
     docente:{
-        type:String,
-        default: 'Sin asignar'
+        type:Number,
+        default: 0
     }
 });
 
