@@ -10,6 +10,8 @@ const Curso = require('../models/curso');
 const Usuario = require('../models/usuario')
 const Aspirante_inscrito = require('../models/aspirante_inscrito')
 const session=require ('express-session')
+const multer = require('multer')
+
 
 require('./../helper/helpers')
 
@@ -171,6 +173,7 @@ app.post('/ingresar', (req,res)=>{
      req.session.identificacion=resultado.cedula
      req.session.usuario=resultado.tipo 
      req.session.nombre=resultado.nombre
+     avatar = resultado.avatar.toString('base64')
      if(resultado.tipo=='aspirante'){
         req.session.aspirante=true
     }
@@ -186,20 +189,33 @@ app.post('/ingresar', (req,res)=>{
     aspirante:req.session.aspirante, 
     admin:req.session.admin,
     docente:req.session.docente,
-    nombre:req.session.nombre
+    nombre:req.session.nombre,
+    avatar: avatar
         })
     })
 
 })
+var upload = multer({
+    fileFilter (req, file, cb) {
+        
+        if (!file.originalname.match(/\.(jpg|png|jpeg)$/)){
+            return cb(new Error('No es un archivo valido'))
+        }
+        
+       
+      }
+    
+})
+app.post('/',upload.single('archivo'),(req, res)=>{
+    console.log(req.file.buffer)
 
-app.post('/',(req, res)=>{
-
-    let usuario = new Usuario ({
+    let usuario = new Usuario ({    
         cedula: req.body.cedula,
         nombre : req.body.nombre,
         correo: req.body.correo,
         telefono: req.body.telefono,
-        password:bcrypt.hashSync(req.body.contraseña, 10) //Para encriptar la contraseña
+        password:bcrypt.hashSync(req.body.contraseña, 10), //Para encriptar la contraseña,
+        avatar : req.file.buffer
 	})
 
 	usuario.save((err, resultado) => {
@@ -219,10 +235,13 @@ app.post('/',(req, res)=>{
 		res.render ('indexpost', {			
 				mostrar : `<div class="alert alert-success" role="alert">
                             Bienvenid@ ${req.body.nombre} a la plataforma de Devtime
+                            <br>
+                                <img  src="data:img/png;base64,{{avatar}}" max-width="100%" max-height="100%"  class="img-fluid" >
                             </div>`,
                 aspirante:req.session.aspirante, 
                 admin:req.session.admin,
                 docente:req.session.docente,
+                
                 sesion:true       
 		});		
 	});	
@@ -364,10 +383,7 @@ app.get('/inscribir',(req, res)=>{
 
             }
             else{
-            console.log(usu.cedula);
-            console.log(usu.nombre);
-            console.log(usu.correo);
-            console.log(usu.telefono);
+            
             res.render ('inscribir',{                 
                 identificacion : parseInt(usu.cedula),
                 nombre : usu.nombre,

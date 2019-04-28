@@ -28,6 +28,9 @@ const usuarioSchema = new Schema({
     password:{
         type:String,
         required:true
+    },
+    avatar:{
+        type : Buffer
     }
 });
 
