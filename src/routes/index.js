@@ -10,7 +10,7 @@ const Curso = require('../models/curso');
 const Usuario = require('../models/usuario')
 const Aspirante_inscrito = require('../models/aspirante_inscrito')
 const session=require ('express-session')
-const sgMail = require('@sendgrid/mail');
+//const sgMail = require('@sendgrid/mail');
 
 require('./../helper/helpers')
 
@@ -226,7 +226,7 @@ app.post('/',(req, res)=>{
         req.session.admin=false	
         req.session.coordinador=false
         console.log("entro"+ req.session.usuario)
-        sgMail.send(msg);
+        //sgMail.send(msg);
 		res.render ('indexpost', {			
 				mostrar : `<div class="alert alert-success" role="alert">
                             Bienvenid@ ${req.body.nombre} a la plataforma de Devtime
