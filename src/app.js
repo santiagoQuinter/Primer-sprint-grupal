@@ -9,6 +9,10 @@ const jwt = require('jsonwebtoken');
 //### Para usar las variables de sesión
 const session = require('express-session')
 var MemoryStore = require('memorystore')(session)
+//Para sockets
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
 
 
 //Paths
@@ -92,7 +96,53 @@ mongoose.connect(process.env.URLDB, {useNewUrlParser: true}, (err, resultado) =>
 	console.log("conectado")
 });
 
-app.listen(process.env.PORT, () => {
+
+//let contador = 0
+const {Usuarios} = require('./usuarios')
+const usuarios = new Usuarios();
+
+
+io.on('connection', client => {
+	//console.log("Un cliente se acaba de conectar")
+	// //mensaje para el cliente:
+	// client.emit("mensaje", "Bienvenido");
+
+	// //Leemos el mensaje del server
+	// client.on("mensajeServer",(informacion)=>{
+	// 	console.log(informacion)
+	// })
+
+	// client.on("contador",()=>{
+	// 	contador++
+	// 	console.log(contador)
+	// 	//para que llegue a todos los usuarios
+	// 	io.emit("contador",contador);
+	// })
+
+	client.on('usuarioNuevo',(usuario)=>{
+		let listado = usuarios.agregarUsuario(client.id,usuario)
+		//console.log(listado)
+		let texto = `El usuario ${usuario} se ha conectado ` 
+		io.emit('nuevoUsuario',texto)
+	})
+
+	client.on('disconnect',()=>{
+		let usuarioBorrado=usuarios.borrarUsuario(client.id)
+		let texto = `El usuario ${usuarioBorrado.nombre} se ha desconectado `
+		io.emit('usuarioDesconectado',texto)
+	})
+
+	client.on("texto",(textoRecibido, callback)=>{
+		let usuario = usuarios.getUsuarioPorId(client.id)
+		let texto = `${usuario.nombre} : ${textoRecibido}`
+		//console.log(textoRecibido)
+		io.emit("texto",textoRecibido);
+		callback()
+	})
+  });
+
+
+server.listen(process.env.PORT, () => {
 	console.log ('servidor en el puerto ' + process.env.PORT)
 });
 
