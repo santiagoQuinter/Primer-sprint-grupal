@@ -582,7 +582,8 @@ const verCursosA = (listadoa, listadoc)=>{
             <th scope="col">ELIMINAR</th>
         </tr>
         </thead>`;
-               
+         console.log("aspirante "+ listadoa) 
+         console.log("cursos "+ listadoc)        
         for(i=0; i<listadoa.length; i++){
             let curso_matriculado =listadoc.filter(buscar =>( buscar.id ==listadoa[i].id))
             retorno += `
