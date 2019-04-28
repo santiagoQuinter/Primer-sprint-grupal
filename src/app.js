@@ -134,9 +134,9 @@ io.on('connection', client => {
 
 	client.on("texto",(textoRecibido, callback)=>{
 		let usuario = usuarios.getUsuarioPorId(client.id)
-		let texto = `${usuario.nombre} : ${textoRecibido}`
+		let texto = `${usuario.nombre} :  ${textoRecibido}`
 		//console.log(textoRecibido)
-		io.emit("texto",textoRecibido);
+		io.emit("texto",texto);
 		callback()
 	})
   });
