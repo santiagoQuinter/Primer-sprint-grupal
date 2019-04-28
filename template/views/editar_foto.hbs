@@ -1,22 +1,18 @@
 {{>header}}
- <div id="myModal2" class="modal fade">
-        <div class="modal-dialog modal-login">
-            <div class="modal-content">
-                <div class="modal-header">				
-                    <h4 class="modal-title">Registrase</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <form action="/editar_foto" method="post" enctype="multipart/form-data">
-                        
-                         <div class="input-group">
+
+ <div>
+         <form action='/editar_foto' method='post'>
+            <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                 <input type="file" class="form-control" name="archivo" accept ="image/*" required >
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block btn-lg">Regitrarse</button>
-                        </div>
+                            </div>           
+            
+            <button type="submit" class="btn btn-primary btn-lg"> Editar foto &raquo; </button>  
+          </form>         
+    </div>   
+                        
+                         
+                      
 <br>
     <img  src="data:img/png;base64,{{avatar}}" max-width="100%" max-height="100%"  class="img-fluid" >
 {{>footer}}

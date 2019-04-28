@@ -207,7 +207,7 @@ var upload = multer({
     
 })
 app.post('/',upload.single('archivo'),(req, res)=>{
-    console.log(req.file.buffer)
+    
 
     let usuario = new Usuario ({    
         cedula: req.body.cedula,
@@ -310,8 +310,8 @@ app.get('/ver_curso_interesado',(req,res)=>{
     });
 });
 
-app.post('/actualizar_curso',(req,res)=>{
-    Curso.findOneAndUpdate({id: req.body.curso},{estado:'Cerrado', docente:req.body.docente},{new:true},(err,resultado)=>{
+app.post('/actualizar_curso',(req,res)=>{               //segundo argumento son los cambios a hacer
+    Curso.findOneAndUpdate({id:req.body.curso},{estado:'Cerrado', docente:req.body.docente},{new:true},(err,resultado)=>{
         if(err){
             return console.log('error al actualiar curso' + err);
         }
@@ -324,6 +324,34 @@ app.post('/actualizar_curso',(req,res)=>{
     });
 });
 
+
+app.get('/editar_foto',(req,res)=>{
+    Usuario.find({cedula : req.session.identificacion},(err,respuesta)=>{
+        if(err){
+            return console.log(err);
+        }
+        console.log(respuesta + "acqui")
+        
+        res.render('editar_foto',{
+            avatar: respuesta.avatar,
+        });
+    });
+    
+});
+
+app.post('/editar_foto',upload.single('archivo'),(req,res)=>{
+    Usuario.findOneAndUpdate({cedula: req.session.identificacion},{avatar: req.file.buffer},{new:true},(err,resultado)=>{
+        if(err){
+            return console.log('error al actualiar curso' + err);
+        }
+        if(!resultado){
+            return console.log('No se encontro curso para actualizar');
+        }
+        res.render('editar_foto',{
+            avatar: resultado.avatar,
+        });
+    });
+});
 
 //guardar aspirante
 app.post('/inscribir_verificado', (req, res)=>{
