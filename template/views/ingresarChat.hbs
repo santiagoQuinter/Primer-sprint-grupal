@@ -1,0 +1,17 @@
+{{>header}}
+
+<div class="alert alert-primary container-fluid" role="alert" style="top:-10em">
+    <div>
+        <h1 class="alert alert-secondary container-fluid" role="alert" style="">Ingresar al chat </h1>
+        <form action="chat" id="formularioIngresarChat">
+            <input type="text" id="nombre" placeholder="Ingrese su nombre" name="nombre" required>
+            <button>Ingresar al chat</button>
+        </form>
+        {{!
+        <script src="socket.io/socket.io.js"></script>
+        <script src="js/socket.js"></script>
+        }}
+    </div>
+</div>
+
+{{>footer}}

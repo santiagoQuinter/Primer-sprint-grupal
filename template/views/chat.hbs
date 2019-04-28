@@ -1,0 +1,31 @@
+{{>header}}
+
+
+
+<div class="container alert alert-primary container-fluid" role="alert" style="top:-10em">
+    <div class="row">
+            <h1 class="alert alert-secondary container" role="alert" style=""><center>Sala de chat</center></h1>
+            <div id="chat"  class=" col-6 chat-body clearfix alert alert-secondary container " 
+            style="height: 30em; overflow-y: auto;"></div>
+            <div id="conectados"  class=" col-5 chat-body clearfix alert alert-secondary container " 
+            style="height: 30em; overflow-y: auto;"></div>
+            <div class="col-6">
+                <form action="" id="formulario" autocomplete="off">
+                     <div class="form-group">
+                        <input class="form-control" type="text" id="texto">
+                     </div>
+                    <button class="btn btn-primary" id="send-message">Enviar</button>
+                </form>
+            </div>
+            <script src="socket.io/socket.io.js"></script>
+            <script src="js/socket.js"></script>
+    </div>
+
+</div>
+<script>
+   
+
+
+</script>
+
+{{>footer}}

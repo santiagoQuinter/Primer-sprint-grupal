@@ -12,6 +12,7 @@ const Aspirante_inscrito = require('../models/aspirante_inscrito')
 const session=require ('express-session')
 const multer = require('multer')
 
+const sgMail = require('@sendgrid/mail');
 
 require('./../helper/helpers')
 
@@ -217,7 +218,13 @@ app.post('/',upload.single('archivo'),(req, res)=>{
         password:bcrypt.hashSync(req.body.contraseña, 10), //Para encriptar la contraseña,
         avatar : req.file.buffer
 	})
-
+    const msg={
+        to:req.body.correo,
+        from:'thelife231@gmail.com',
+        subject: 'Bienvenido',
+        text: 'Bienvenido a la pagina de Node.js'
+    }
+   
 	usuario.save((err, resultado) => {
 		if (err){
 			return res.render ('indexpost', {
@@ -226,12 +233,16 @@ app.post('/',upload.single('archivo'),(req, res)=>{
                         </div>`
 			});			
         }	
-        
+        req.session._id=usuario._id
+        req.session.identificacion=usuario.cedula
+        req.session.usuario=usuario.tipo 
+        req.session.nombre=usuario.nombre
         req.session.usuario=usuario.tipo
         req.session.aspirante=true
         req.session.admin=false	
         req.session.coordinador=false
         console.log("entro"+ req.session.usuario)
+        sgMail.send(msg);
 		res.render ('indexpost', {			
 				mostrar : `<div class="alert alert-success" role="alert">
                             Bienvenid@ ${req.body.nombre} a la plataforma de Devtime
@@ -408,7 +419,7 @@ app.get('/inscribir',(req, res)=>{
         }
         Usuario.findById(req.session._id, (err, usu) =>{
             if(err){
-
+                return console.log(err);
             }
             else{
             
@@ -420,9 +431,33 @@ app.get('/inscribir',(req, res)=>{
                 listado : respuesta
             });}
 
+            
+                console.log("imprimir usuario "+ usu)
+                console.log(usu.cedula);
+                console.log(usu.nombre);
+                console.log(usu.correo);
+                console.log(usu.telefono);
+                res.render ('inscribir',{                 
+                    identificacion : usu.cedula,
+                    nombre : usu.nombre,
+                    correo : usu.correo,
+                    telefono : parseInt(usu.telefono),
+                    listado : respuesta
+                });
+            
         });
 		
 	});
+});
+
+app.get('/ingresarChat',(req,res)=>{
+    res.render('ingresarChat');
+});
+
+app.get('/chat',(req,res)=>{
+    res.render('chat',{
+        nombre:req.body.nombre
+    });
 });
 
 app.get('*',(req,res)=>{
