@@ -240,6 +240,7 @@ app.post('/',upload.single('archivo'),(req, res)=>{
         req.session.coordinador=false
         console.log("entro"+ req.session.usuario)
         sgMail.send(msg);
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 		res.render ('indexpost', {			
 				mostrar : `<div class="alert alert-success" role="alert">
                             Bienvenid@ ${req.body.nombre} a la plataforma de Devtime
