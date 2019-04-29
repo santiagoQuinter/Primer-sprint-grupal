@@ -192,19 +192,13 @@ app.post('/ingresar', (req,res)=>{
     docente:req.session.docente,
     nombre:req.session.nombre,
     avatar: avatar
+    
         })
     })
 
 })
-var upload = multer({
-    fileFilter (req, file, cb) {
-        
-        if (!file.originalname.match(/\.(jpg|png|jpeg)$/)){
-            return cb(new Error('No es un archivo valido'))
-        }
-        
-       
-      }
+var upload = multer({       
+    
     
 })
 app.post('/',upload.single('archivo'),(req, res)=>{
@@ -337,29 +331,38 @@ app.post('/actualizar_curso',(req,res)=>{               //segundo argumento son 
 
 
 app.get('/editar_foto',(req,res)=>{
-    Usuario.find({cedula : req.session.identificacion},(err,respuesta)=>{
+    Usuario.findOne({cedula : req.session.identificacion},(err,respuesta)=>{
         if(err){
             return console.log(err);
         }
-        console.log(respuesta + "acqui")
+       
+        console.log(respuesta + "acqui");
+        aux = respuesta.avatar.toString('base64');
+
         
         res.render('editar_foto',{
-            avatar: respuesta.avatar,
+            avatar: aux, 
         });
     });
     
 });
 
-app.post('/editar_foto',upload.single('archivo'),(req,res)=>{
+
+
+
+app.post('/editar_foto_verificado',upload.single('archivo'),(req,res)=>{
+    console.log("hola")
     Usuario.findOneAndUpdate({cedula: req.session.identificacion},{avatar: req.file.buffer},{new:true},(err,resultado)=>{
-        if(err){
+        if(err){req.file.buffer
             return console.log('error al actualiar curso' + err);
         }
         if(!resultado){
             return console.log('No se encontro curso para actualizar');
         }
-        res.render('editar_foto',{
-            avatar: resultado.avatar,
+        aux = resultado.avatar.toString('base64');
+        console.log("hola")
+        res.render('editar_foto_verificado',{
+            avatar: aux,
         });
     });
 });
