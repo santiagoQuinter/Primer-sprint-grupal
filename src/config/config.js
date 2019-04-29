@@ -10,8 +10,4 @@ else {
 }
 
 process.env.URLDB = URLDB
-<<<<<<< HEAD
 process.env.SENDGRID_API_KEY=process.env.SENDGRID_API_KEY1
-=======
-//process.env.SENDGRID_API_KEY=process.env.SENDGRID_API_KEY
->>>>>>> 731bc90da37694cf166dbb713a08c27d7faf0221
