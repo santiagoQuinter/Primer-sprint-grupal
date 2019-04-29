@@ -10,6 +10,8 @@ const Curso = require('../models/curso');
 const Usuario = require('../models/usuario')
 const Aspirante_inscrito = require('../models/aspirante_inscrito')
 const session=require ('express-session')
+const multer = require('multer')
+
 const sgMail = require('@sendgrid/mail');
 
 require('./../helper/helpers')
@@ -172,6 +174,7 @@ app.post('/ingresar', (req,res)=>{
      req.session.identificacion=resultado.cedula
      req.session.usuario=resultado.tipo 
      req.session.nombre=resultado.nombre
+     avatar = resultado.avatar.toString('base64')
      if(resultado.tipo=='aspirante'){
         req.session.aspirante=true
     }
@@ -187,24 +190,31 @@ app.post('/ingresar', (req,res)=>{
     aspirante:req.session.aspirante, 
     admin:req.session.admin,
     docente:req.session.docente,
-    nombre:req.session.nombre
+    nombre:req.session.nombre,
+    avatar: avatar
+    
         })
     })
 
 })
+var upload = multer({       
+    
+    
+})
+app.post('/',upload.single('archivo'),(req, res)=>{
+    
 
-app.post('/',(req, res)=>{
-
-    let usuario = new Usuario ({
+    let usuario = new Usuario ({    
         cedula: req.body.cedula,
         nombre : req.body.nombre,
         correo: req.body.correo,
         telefono: req.body.telefono,
-        password:bcrypt.hashSync(req.body.contraseña, 10) //Para encriptar la contraseña
+        password:bcrypt.hashSync(req.body.contraseña, 10), //Para encriptar la contraseña,
+        avatar : req.file.buffer
 	})
     const msg={
         to:req.body.correo,
-        from:'mirosaless@unal.edu.co',
+        from:'thelife231@gmail.com',
         subject: 'Bienvenido',
         text: 'Bienvenido a la pagina de Node.js'
     }
@@ -230,10 +240,13 @@ app.post('/',(req, res)=>{
 		res.render ('indexpost', {			
 				mostrar : `<div class="alert alert-success" role="alert">
                             Bienvenid@ ${req.body.nombre} a la plataforma de Devtime
+                            <br>
+                                <img  src="data:img/png;base64,{{avatar}}" max-width="100%" max-height="100%"  class="img-fluid" >
                             </div>`,
                 aspirante:req.session.aspirante, 
                 admin:req.session.admin,
                 docente:req.session.docente,
+                
                 sesion:true       
 		});		
 	});	
@@ -302,8 +315,8 @@ app.get('/ver_curso_interesado',(req,res)=>{
     });
 });
 
-app.post('/actualizar_curso',(req,res)=>{
-    Curso.findOneAndUpdate({id: req.body.curso},{estado:'Cerrado', docente:req.body.docente},{new:true},(err,resultado)=>{
+app.post('/actualizar_curso',(req,res)=>{               //segundo argumento son los cambios a hacer
+    Curso.findOneAndUpdate({id:req.body.curso},{estado:'Cerrado', docente:req.body.docente},{new:true},(err,resultado)=>{
         if(err){
             return console.log('error al actualiar curso' + err);
         }
@@ -316,6 +329,43 @@ app.post('/actualizar_curso',(req,res)=>{
     });
 });
 
+
+app.get('/editar_foto',(req,res)=>{
+    Usuario.findOne({cedula : req.session.identificacion},(err,respuesta)=>{
+        if(err){
+            return console.log(err);
+        }
+       
+        console.log(respuesta + "acqui");
+        aux = respuesta.avatar.toString('base64');
+
+        
+        res.render('editar_foto',{
+            avatar: aux, 
+        });
+    });
+    
+});
+
+
+
+
+app.post('/editar_foto_verificado',upload.single('archivo'),(req,res)=>{
+    console.log("hola")
+    Usuario.findOneAndUpdate({cedula: req.session.identificacion},{avatar: req.file.buffer},{new:true},(err,resultado)=>{
+        if(err){req.file.buffer
+            return console.log('error al actualiar curso' + err);
+        }
+        if(!resultado){
+            return console.log('No se encontro curso para actualizar');
+        }
+        aux = resultado.avatar.toString('base64');
+        console.log("hola")
+        res.render('editar_foto_verificado',{
+            avatar: aux,
+        });
+    });
+});
 
 //guardar aspirante
 app.post('/inscribir_verificado', (req, res)=>{
@@ -333,6 +383,7 @@ app.post('/inscribir_verificado', (req, res)=>{
         })
 
         Curso.find({id : req.body.curso},(err,respuesta2)=>{
+            console.log(typeof (respuesta2));
 
             if (err){
                 return console.log(err)		}
@@ -345,7 +396,7 @@ app.post('/inscribir_verificado', (req, res)=>{
             }		
             res.render ('inscribir_verificado', {
                     mostrar : `<div class="alert alert-success" role="alert">
-                    El usuario con la id ${resultado.identificacion}, ha sido inscrito correctamente en el curso ${respuesta2.nombre}
+                    El usuario con la id ${resultado.identificacion}, ha sido inscrito correctamente en el curso ${respuesta2[0].nombre}
                             </div>`
                     
                 })	
@@ -373,6 +424,16 @@ app.get('/inscribir',(req, res)=>{
             if(err){
                 return console.log(err);
             }
+            else{
+            
+            res.render ('inscribir',{                 
+                identificacion : parseInt(usu.cedula),
+                nombre : usu.nombre,
+                correo : usu.correo,
+                telefono : parseInt(usu.telefono),
+                listado : respuesta
+            });}
+
             
                 console.log("imprimir usuario "+ usu)
                 console.log(usu.cedula);
@@ -390,6 +451,16 @@ app.get('/inscribir',(req, res)=>{
         });
 		
 	});
+});
+
+app.get('/ingresarChat',(req,res)=>{
+    res.render('ingresarChat');
+});
+
+app.get('/chat',(req,res)=>{
+    res.render('chat',{
+        nombre:req.body.nombre
+    });
 });
 
 app.get('*',(req,res)=>{
