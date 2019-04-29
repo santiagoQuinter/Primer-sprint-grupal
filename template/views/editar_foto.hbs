@@ -1,0 +1,23 @@
+{{>header}}
+
+<div class="container" style="margin-top:-10em ; margin-right:-14em"> 
+    <div  class="col" class="row"> <H4> Imagen de perfil  </H4> 
+     <div   class="col-10" class="col-sm"><img  src="data:img/png;base64,{{avatar}}" width="50%" height="50%"  class="img-fluid" > </div>
+    
+     </div>   
+</div>   
+
+ <div class="container">
+         <form action='/editar_foto_verificado' method='post' enctype="multipart/form-data">
+            <div class="input-group">                                
+                <input type="file" class="form-control" name="archivo" accept ="image/*" required >
+                <button type="submit"> Actualizar Foto</button>
+            </div>          
+            
+              
+          </form>           
+    </div>                     
+                         
+                      
+
+{{>footer}}
