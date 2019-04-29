@@ -198,6 +198,9 @@ app.post('/ingresar', (req,res)=>{
 
 })
 var upload = multer({       
+    limits: {
+        fileSize : 5000000
+    }
     
     
 })
